@@ -6,10 +6,10 @@ class ObfuscateFixedValueTest extends ObfuscatorTestCase
     public static function obfuscationParameters(): array
     {
         return [
-            [Obfuscator::fixedValue('<obfuscated>'), 'foo', '<obfuscated>'],
-            [Obfuscator::fixedValue('<obfuscated>'), 'hello', '<obfuscated>'],
-            [Obfuscator::fixedValue('<obfuscated>'), '', '<obfuscated>'],
-            [Obfuscator::fixedValue(''), 'foo', ''],
+            [Obfuscate::fixedValue('<obfuscated>'), 'foo', '<obfuscated>'],
+            [Obfuscate::fixedValue('<obfuscated>'), 'hello', '<obfuscated>'],
+            [Obfuscate::fixedValue('<obfuscated>'), '', '<obfuscated>'],
+            [Obfuscate::fixedValue(''), 'foo', ''],
         ];
     }
 }

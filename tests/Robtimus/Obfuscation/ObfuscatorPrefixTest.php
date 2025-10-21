@@ -8,10 +8,10 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
 {
     public static function obfuscationParameters(): array
     {
-        $obfuscator1 = Obfuscator::none()->untilLength(4)->then(Obfuscator::all())->untilLength(12)->then(Obfuscator::none());
-        $obfuscator2 = Obfuscator::none()->untilLength(4)->then(Obfuscator::fixedLength(3));
-        $obfuscator3 = Obfuscator::fixedLength(3)->untilLength(4)->then(Obfuscator::none());
-        $obfuscator4 = Obfuscator::fixedLength(3)->untilLength(4)->then(Obfuscator::fixedValue('xxx'));
+        $obfuscator1 = Obfuscate::none()->untilLength(4)->then(Obfuscate::all())->untilLength(12)->then(Obfuscate::none());
+        $obfuscator2 = Obfuscate::none()->untilLength(4)->then(Obfuscate::fixedLength(3));
+        $obfuscator3 = Obfuscate::fixedLength(3)->untilLength(4)->then(Obfuscate::none());
+        $obfuscator4 = Obfuscate::fixedLength(3)->untilLength(4)->then(Obfuscate::fixedValue('xxx'));
         return [
             // none() untilLength(4) then all(0) untilLength(12) then none()
             [$obfuscator1, '0', '0'],
@@ -70,7 +70,7 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
     #[DataProvider('obfuscators')]
     public function testInvalidSecondPrefixLength(Obfuscator $firstObfuscator): void
     {
-        $obfuscator = $firstObfuscator->untilLength(1)->then(Obfuscator::all());
+        $obfuscator = $firstObfuscator->untilLength(1)->then(Obfuscate::all());
 
         $this->expectException(ValueError::class);
         $this->expectExceptionMessage('1 <= 1');
@@ -81,7 +81,7 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
     #[DataProvider('obfuscators')]
     public function testInvalidThirdPrefixLength(Obfuscator $firstObfuscator): void
     {
-        $obfuscator = $firstObfuscator->untilLength(1)->then(Obfuscator::all())->untilLength(2)->then(Obfuscator::none());
+        $obfuscator = $firstObfuscator->untilLength(1)->then(Obfuscate::all())->untilLength(2)->then(Obfuscate::none());
 
         $this->expectException(ValueError::class);
         $this->expectExceptionMessage('2 <= 2');
@@ -95,11 +95,11 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
     public static function obfuscators(): array
     {
         return [
-            [Obfuscator::all()],
-            [Obfuscator::none()],
-            [Obfuscator::fixedLength(3)],
-            [Obfuscator::fixedValue('xxx')],
-            [Obfuscator::portion()->build()],
+            [Obfuscate::all()],
+            [Obfuscate::none()],
+            [Obfuscate::fixedLength(3)],
+            [Obfuscate::fixedValue('xxx')],
+            [Obfuscate::portion()->build()],
         ];
     }
 }
