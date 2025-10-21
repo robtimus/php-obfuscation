@@ -1,0 +1,33 @@
+{
+    "name": "robtimus/obfuscation",
+    "type": "library",
+    "description": "Provides functionality for obfuscating text",
+    "homepage": "https://github.com/robtimus/php-obfuscation",
+    "keywords": ["obfuscation"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Rob Spoor",
+            "email": "robtimus@users.noreply.github.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/robtimus/php-obfuscation/issues"
+    },
+    "require": {
+        "php": ">=8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Robtimus\\Obfuscation\\": ["src/Robtimus/Obfuscation"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Robtimus\\Obfuscation\\": ["tests/Robtimus/Obfuscation"]
+        }
+    }
+}

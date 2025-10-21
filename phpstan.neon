@@ -1,0 +1,10 @@
+parameters:
+  paths:
+    - src
+    - tests
+  level: 9
+
+  #treatPhpDocTypesAsCertain: false
+  #checkMissingCallableSignature: true
+
+  ignoreErrors: []
