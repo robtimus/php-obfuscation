@@ -62,7 +62,7 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
     public function testInvalidFirstPrefixLength(Obfuscator $obfuscator): void
     {
         $this->expectException(ValueError::class);
-        $this->expectExceptionMessage('0 <= 0');
+        $this->expectExceptionMessage('0 < 1');
 
         $obfuscator->untilLength(0);
     }
@@ -73,7 +73,7 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
         $obfuscator = $firstObfuscator->untilLength(1)->then(Obfuscate::all());
 
         $this->expectException(ValueError::class);
-        $this->expectExceptionMessage('1 <= 1');
+        $this->expectExceptionMessage('1 < 2');
 
         $obfuscator->untilLength(1);
     }
@@ -84,7 +84,7 @@ class ObfuscatorPrefixTest extends ObfuscatorTestCase
         $obfuscator = $firstObfuscator->untilLength(1)->then(Obfuscate::all())->untilLength(2)->then(Obfuscate::none());
 
         $this->expectException(ValueError::class);
-        $this->expectExceptionMessage('2 <= 2');
+        $this->expectExceptionMessage('2 < 3');
 
         $obfuscator->untilLength(2);
     }

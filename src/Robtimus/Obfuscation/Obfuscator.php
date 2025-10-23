@@ -12,14 +12,14 @@ use ValueError;
  */
 abstract class Obfuscator
 {
-    private int $_previousPrefixLength = 0;
+    private int $_minPrefixLength = 1;
 
-    public function __construct(int $previousPrefixLength = 0)
+    public function __construct(int $minPrefixLength = 1)
     {
-        if ($previousPrefixLength < 0) {
-            throw new ValueError("$previousPrefixLength < 0");
+        if ($minPrefixLength < 1) {
+            throw new ValueError("$minPrefixLength < 1");
         }
-        $this->_previousPrefixLength = $previousPrefixLength;
+        $this->_minPrefixLength = $minPrefixLength;
     }
 
     /**
@@ -54,8 +54,8 @@ abstract class Obfuscator
      */
     final public function untilLength(int $prefixLength): ObfuscatorPrefix
     {
-        if ($prefixLength <= $this->_previousPrefixLength) {
-            throw new ValueError("$prefixLength <= {$this->_previousPrefixLength}");
+        if ($prefixLength < $this->_minPrefixLength) {
+            throw new ValueError("$prefixLength < {$this->_minPrefixLength}");
         }
         return new class($this, $prefixLength) implements ObfuscatorPrefix
         {
@@ -78,7 +78,7 @@ abstract class Obfuscator
 
                     function __construct(Obfuscator $first, int $lengthForFirst, Obfuscator $second)
                     {
-                        parent::__construct($lengthForFirst);
+                        parent::__construct($lengthForFirst + 1);
                         $this->_first = $first;
                         $this->_lengthForFirst = $lengthForFirst;
                         $this->_second = $second;
