@@ -56,7 +56,7 @@ abstract class SplitPoint
      *
      * @return int The index in the given text where to start to split, or -1 to not split.
      */
-    abstract public function splitStart(string $text): int;
+    abstract protected function splitStart(string $text): int;
 
     /**
      * Returns the length of text ranges to not obfuscate when splitting.
@@ -65,7 +65,7 @@ abstract class SplitPoint
      *
      * @return int The length of text ranges to not obfuscate when splitting.
      */
-    abstract public function splitLength(): int;
+    abstract protected function splitLength(): int;
 
     /**
      * Creates an obfuscator that splits obfuscation at this split point.
@@ -78,32 +78,48 @@ abstract class SplitPoint
      */
     final public function splitTo(Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint): Obfuscator
     {
-        return new class($this, $beforeSplitPoint, $afterSplitPoint) extends Obfuscator
+        /*
+         * The splitStart and splitLength methods are protected, and therefore cannot be used in the anonymous Obfuscator class.
+         * Use a callable function for the first and the return value for the second.
+         * Unfortunately PHP doesn't (yet?) support fields of type callable, so it must be stored as mixed, and the phpstan type warning
+         * when using it with call_user_func must be ignored.
+         *
+         * A possible alternative would be to use reflection, but that isn't more readable and unlikely to be (a lot more) performant.
+         */
+
+        $splitStart = function (string $text) {
+            return $this->splitStart($text);
+        };
+        $splitLength = $this->splitLength();
+
+        return new class($splitStart, $splitLength, $beforeSplitPoint, $afterSplitPoint) extends Obfuscator
         {
-            private SplitPoint $_splitPoint;
+            private mixed $_splitStart;
+            private int $_splitLength;
             private Obfuscator $_beforeSplitPoint;
             private Obfuscator $_afterSplitPoint;
 
-            function __construct(SplitPoint $splitPoint, Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint)
+            function __construct(callable $splitStart, int $splitLength, Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint)
             {
-                $this->_splitPoint = $splitPoint;
+                $this->_splitStart = $splitStart;
+                $this->_splitLength  = $splitLength;
                 $this->_beforeSplitPoint = $beforeSplitPoint;
                 $this->_afterSplitPoint = $afterSplitPoint;
             }
 
             public function obfuscateText(string $text): string
             {
-                $splitStart = $this->_splitPoint->splitStart($text);
+                // @phpstan-ignore-next-line (no error identifier available to be more specific)
+                $splitStart = intval(call_user_func($this->_splitStart, $text));
                 if ($splitStart === -1) {
                     return $this->_beforeSplitPoint->obfuscateText($text);
                 }
 
                 $resultBeforeSplitPoint = $this->_beforeSplitPoint->obfuscateText(mb_substr($text, 0, $splitStart));
 
-                $splitLength = $this->_splitPoint->splitLength();
-                if ($splitLength > 0) {
-                    $split = mb_substr($text, $splitStart, $splitLength);
-                    $resultAfterSplitPoint = $this->_afterSplitPoint->obfuscateText(mb_substr($text, $splitStart + $splitLength));
+                if ($this->_splitLength > 0) {
+                    $split = mb_substr($text, $splitStart, $this->_splitLength);
+                    $resultAfterSplitPoint = $this->_afterSplitPoint->obfuscateText(mb_substr($text, $splitStart + $this->_splitLength));
                     return $resultBeforeSplitPoint . $split . $resultAfterSplitPoint;
                 }
 

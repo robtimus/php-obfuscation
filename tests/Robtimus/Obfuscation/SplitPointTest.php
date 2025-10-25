@@ -154,12 +154,12 @@ class SplitPointTest extends TestCase
                 $this->_delegate = SplitPoint::atFirst('@');
             }
 
-            public function splitStart(string $text): int
+            protected function splitStart(string $text): int
             {
                 return $this->_delegate->splitStart($text);
             }
 
-            public function splitLength(): int
+            protected function splitLength(): int
             {
                 return 0;
             }
@@ -188,12 +188,12 @@ class SplitPointTest extends TestCase
     {
         $splitPoint = new class extends SplitPoint
         {
-            public function splitStart(string $text): int
+            protected function splitStart(string $text): int
             {
                 return 0;
             }
 
-            public function splitLength(): int
+            protected function splitLength(): int
             {
                 return 0;
             }
@@ -222,12 +222,12 @@ class SplitPointTest extends TestCase
     {
         $splitPoint = new class extends SplitPoint
         {
-            public function splitStart(string $text): int
+            protected function splitStart(string $text): int
             {
                 return mb_strlen($text);
             }
 
-            public function splitLength(): int
+            protected function splitLength(): int
             {
                 return 0;
             }
