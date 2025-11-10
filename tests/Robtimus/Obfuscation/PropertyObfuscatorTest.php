@@ -3,6 +3,7 @@ namespace Robtimus\Obfuscation;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use ValueError;
 
 class PropertyObfuscatorTest extends TestCase
 {
@@ -102,6 +103,33 @@ class PropertyObfuscatorTest extends TestCase
     }
 }
 EOD;
+
+    public function testDuplicateCaseSensitivePropertyNames(): void
+    {
+        $obfuscator = Obfuscate::fixedLength(3);
+        $builder = PropertyObfuscator::builder()
+            ->withProperty('test', $obfuscator)
+            ->withProperty('test', $obfuscator, false)
+            ->withProperty('TEST', $obfuscator);
+
+        $this->expectException(ValueError::class);
+        $this->expectExceptionMessage('Duplicate key: test (case sensitive)');
+
+        $builder->withProperty('test', $obfuscator, true);
+    }
+
+    public function testDuplicateCaseInsensitivePropertyNames(): void
+    {
+        $obfuscator = Obfuscate::fixedLength(3);
+        $builder = PropertyObfuscator::builder()
+            ->withProperty('test', $obfuscator)
+            ->withProperty('test', $obfuscator, false);
+
+        $this->expectException(ValueError::class);
+        $this->expectExceptionMessage('Duplicate key: TEST (case insensitive)');
+
+        $builder->withProperty('TEST', $obfuscator, false);
+    }
 
     #[DataProvider('obfuscatePropertyGloballyCaseSensitiveParameters')]
     public function testObfuscatePropertyGloballyCaseSensitive(string $propertyName, string $value, string $expected): void
@@ -1983,5 +2011,35 @@ EOD;
 }
 EOD;
         $this->assertEquals($expectedJson, $obfuscatedJson);
+    }
+
+    #[DataProvider('obfuscateScalarsParameters')]
+    public function testObfuscateScalars(mixed $value): void
+    {
+        $obfuscator = Obfuscate::fixedLength(3);
+        $propertyObfuscator = PropertyObfuscator::builder()
+            ->caseSensitiveByDefault()
+            ->withProperty('string', $obfuscator)
+            ->withProperty('notObfuscated', Obfuscate::none())
+                ->forObjects(PropertyObfuscationMode::SKIP)
+                ->forArrays(PropertyObfuscationMode::SKIP)
+            ->build();
+
+        $obfuscated = $propertyObfuscator->obfuscateProperties($value);
+
+        $this->assertEquals($value, $obfuscated);
+    }
+
+    /**
+     * @return array<array<mixed>>
+     */
+    public static function obfuscateScalarsParameters(): array
+    {
+        return [
+            ['foo'],
+            [1],
+            [true],
+            [false],
+        ];
     }
 }

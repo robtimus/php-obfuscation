@@ -114,6 +114,23 @@ class ObfuscatePortionTest extends ObfuscatorTestCase
         ];
     }
 
+    public function testWithDefaults(): void
+    {
+        $obfuscator = Obfuscate::portion()
+            ->keepAtStart(1)
+            ->keepAtEnd(1)
+            ->atLeastFromStart(1)
+            ->atLeastFromEnd(1)
+            ->withFixedTotalLength(10)
+            ->withMask('x')
+            ->withDefaults()
+            ->build();
+
+        $obfuscated = $obfuscator->obfuscateText('hello world');
+
+        $this->assertEquals('***********', $obfuscated);
+    }
+
     public function testNegativeKeepAtStart(): void
     {
         $builder = Obfuscate::portion();

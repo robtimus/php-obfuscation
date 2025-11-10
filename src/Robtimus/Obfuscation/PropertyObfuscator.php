@@ -103,7 +103,7 @@ abstract class PropertyObfuscator
             {
                 $this->_addLastProperty();
 
-                $caseSensitive = $caseSensitive ?: $this->_caseSensitiveByDefault;
+                $caseSensitive = is_null($caseSensitive) ? $this->_caseSensitiveByDefault : $caseSensitive;
                 $this->_testProperty($propertyName, $caseSensitive);
 
                 $this->_propertyName = $propertyName;

@@ -12,8 +12,6 @@ use ValueError;
  */
 final class Obfuscate
 {
-    private static ?Obfuscator $_none = null;
-
     private function __construct()
     {
         // private constructor to prevent initialization
@@ -55,22 +53,19 @@ final class Obfuscate
      */
     public static function none(): Obfuscator
     {
-        if (is_null(Obfuscate::$_none)) {
-            Obfuscate::$_none = new class extends Obfuscator
+        return new class extends Obfuscator
+        {
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+            public function __construct()
             {
-                // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-                public function __construct()
-                {
-                }
+            }
 
-                // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-                public function obfuscateText(string $text): string
-                {
-                    return $text;
-                }
-            };
-        }
-        return Obfuscate::$_none;
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+            public function obfuscateText(string $text): string
+            {
+                return $text;
+            }
+        };
     }
 
     /**
