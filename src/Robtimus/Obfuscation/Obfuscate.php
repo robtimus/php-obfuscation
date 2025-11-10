@@ -16,6 +16,7 @@ final class Obfuscate
 
     private function __construct()
     {
+        // private constructor to prevent initialization
     }
 
     /**
@@ -33,7 +34,7 @@ final class Obfuscate
             private string $_mask;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(string $mask)
+            public function __construct(string $mask)
             {
                 $this->_mask = $mask;
             }
@@ -103,7 +104,7 @@ final class Obfuscate
             private string $_fixedValue;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(string $fixedValue)
+            public function __construct(string $fixedValue)
             {
                 $this->_fixedValue = $fixedValue;
             }

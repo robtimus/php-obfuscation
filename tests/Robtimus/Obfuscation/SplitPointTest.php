@@ -149,7 +149,7 @@ class SplitPointTest extends TestCase
         {
             private SplitPoint $_delegate;
 
-            function __construct()
+            public function __construct()
             {
                 $this->_delegate = SplitPoint::atFirst('@');
             }

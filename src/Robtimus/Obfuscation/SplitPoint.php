@@ -100,7 +100,7 @@ abstract class SplitPoint
             private Obfuscator $_afterSplitPoint;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(callable $splitStart, int $splitLength, Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint)
+            public function __construct(callable $splitStart, int $splitLength, Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint)
             {
                 $this->_splitStart = $splitStart;
                 $this->_splitLength  = $splitLength;
@@ -151,7 +151,7 @@ abstract class SplitPoint
             private int $_splitLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(string $splitAt)
+            public function __construct(string $splitAt)
             {
                 $this->_splitAt = $splitAt;
                 $this->_splitLength = mb_strlen($splitAt);
@@ -192,7 +192,7 @@ abstract class SplitPoint
             private int $_splitLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(string $splitAt)
+            public function __construct(string $splitAt)
             {
                 $this->_splitAt = $splitAt;
                 $this->_splitLength = mb_strlen($splitAt);
@@ -238,7 +238,7 @@ abstract class SplitPoint
             private int $_splitLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(string $splitAt, int $occurrence)
+            public function __construct(string $splitAt, int $occurrence)
             {
                 $this->_splitAt = $splitAt;
                 $this->_occurrence = $occurrence;

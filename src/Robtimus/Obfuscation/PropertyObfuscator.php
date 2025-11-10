@@ -224,7 +224,7 @@ abstract class PropertyObfuscator
                      * @param array<string, array{ 'obfuscator': Obfuscator, 'forObjects': PropertyObfuscationMode, 'forArrays': PropertyObfuscationMode}> $caseSensitiveProperties
                      * @param array<string, array{'obfuscator': Obfuscator, 'forObjects': PropertyObfuscationMode, 'forArrays': PropertyObfuscationMode}>  $caseInsensitiveProperties
                      */
-                    function __construct(array $caseSensitiveProperties, array $caseInsensitiveProperties)
+                    public function __construct(array $caseSensitiveProperties, array $caseInsensitiveProperties)
                     {
                         $this->_caseSensitiveProperties = $caseSensitiveProperties;
                         $this->_caseInsensitiveProperties = $caseInsensitiveProperties;

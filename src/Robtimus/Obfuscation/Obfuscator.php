@@ -68,7 +68,7 @@ abstract class Obfuscator
             private int $_prefixLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            function __construct(Obfuscator $obfuscator, int $prefixLength)
+            public function __construct(Obfuscator $obfuscator, int $prefixLength)
             {
                 $this->_obfuscator = $obfuscator;
                 $this->_prefixLength = $prefixLength;
@@ -84,7 +84,7 @@ abstract class Obfuscator
                     private Obfuscator $_second;
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-                    function __construct(Obfuscator $first, int $lengthForFirst, Obfuscator $second)
+                    public function __construct(Obfuscator $first, int $lengthForFirst, Obfuscator $second)
                     {
                         parent::__construct($lengthForFirst + 1);
                         $this->_first = $first;
