@@ -32,11 +32,13 @@ final class Obfuscate
         {
             private string $_mask;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(string $mask)
             {
                 $this->_mask = $mask;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
                 return str_repeat($this->_mask, mb_strlen($text));
@@ -55,6 +57,12 @@ final class Obfuscate
         if (is_null(Obfuscate::$_NONE)) {
             Obfuscate::$_NONE = new class extends Obfuscator
             {
+                // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+                function __construct()
+                {
+                }
+
+                // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                 public function obfuscateText(string $text): string
                 {
                     return $text;
@@ -94,11 +102,13 @@ final class Obfuscate
         {
             private string $_fixedValue;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(string $fixedValue)
             {
                 $this->_fixedValue = $fixedValue;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
                 return $this->_fixedValue;

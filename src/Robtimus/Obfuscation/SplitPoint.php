@@ -99,6 +99,7 @@ abstract class SplitPoint
             private Obfuscator $_beforeSplitPoint;
             private Obfuscator $_afterSplitPoint;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(callable $splitStart, int $splitLength, Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint)
             {
                 $this->_splitStart = $splitStart;
@@ -107,6 +108,7 @@ abstract class SplitPoint
                 $this->_afterSplitPoint = $afterSplitPoint;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
                 // @phpstan-ignore-next-line (no error identifier available to be more specific)
@@ -148,18 +150,21 @@ abstract class SplitPoint
             private string $_splitAt;
             private int $_splitLength;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(string $splitAt)
             {
                 $this->_splitAt = $splitAt;
                 $this->_splitLength = mb_strlen($splitAt);
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitStart(string $text): int
             {
                 $result = mb_strpos($text, $this->_splitAt);
                 return $result === false ? -1 : $result;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitLength(): int
             {
                 return $this->_splitLength;
@@ -186,18 +191,21 @@ abstract class SplitPoint
             private string $_splitAt;
             private int $_splitLength;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(string $splitAt)
             {
                 $this->_splitAt = $splitAt;
                 $this->_splitLength = mb_strlen($splitAt);
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitStart(string $text): int
             {
                 $result = mb_strrpos($text, $this->_splitAt);
                 return $result === false ? -1 : $result;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitLength(): int
             {
                 return $this->_splitLength;
@@ -229,6 +237,7 @@ abstract class SplitPoint
             private int $_occurrence;
             private int $_splitLength;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(string $splitAt, int $occurrence)
             {
                 $this->_splitAt = $splitAt;
@@ -236,6 +245,7 @@ abstract class SplitPoint
                 $this->_splitLength = mb_strlen($splitAt);
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitStart(string $text): int
             {
                 $result = mb_strpos($text, $this->_splitAt);
@@ -245,6 +255,7 @@ abstract class SplitPoint
                 return $result === false ? -1 : $result;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitLength(): int
             {
                 return $this->_splitLength;

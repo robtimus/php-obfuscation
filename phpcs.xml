@@ -14,6 +14,12 @@
   <rule ref="PEAR.Commenting.ClassComment">
     <exclude-pattern>*/tests/*</exclude-pattern>
   </rule>
+  <rule ref="PEAR.Commenting.ClassComment.MissingCategoryTag">
+    <exclude-pattern>*</exclude-pattern>
+  </rule>
+  <rule ref="PEAR.Commenting.ClassComment.MissingLinkTag">
+    <exclude-pattern>*</exclude-pattern>
+  </rule>
   <rule ref="PEAR.Commenting.FunctionComment">
     <properties>
       <property name="minimumVisibility" value="protected"/>

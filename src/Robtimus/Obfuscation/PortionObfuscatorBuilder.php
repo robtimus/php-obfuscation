@@ -183,6 +183,7 @@ final class PortionObfuscatorBuilder
             private int $_fixedTotalLength;
             private string $_mask;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(int $keepAtStart, int $keepAtEnd, int $atLeastFromStart, int $atLeastFromEnd, int $fixedTotalLength, string $mask)
             {
                 $this->_keepAtStart = $keepAtStart;
@@ -220,6 +221,7 @@ final class PortionObfuscatorBuilder
                 return min($this->_keepAtEnd, min($available, $keepAtMost));
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
                 $allowDuplicates = $this->_fixedTotalLength >= 0;

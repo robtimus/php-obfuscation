@@ -14,7 +14,12 @@ abstract class Obfuscator
 {
     private int $_minPrefixLength = 1;
 
-    public function __construct(int $minPrefixLength = 1)
+    /**
+     * Creates a new obfuscator.
+     *
+     * @param int $minPrefixLength The minimum allowed length when calling `untilLength`.
+     */
+    protected function __construct(int $minPrefixLength = 1)
     {
         if ($minPrefixLength < 1) {
             throw new ValueError("$minPrefixLength < 1");
@@ -62,12 +67,14 @@ abstract class Obfuscator
             private Obfuscator $_obfuscator;
             private int $_prefixLength;
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             function __construct(Obfuscator $obfuscator, int $prefixLength)
             {
                 $this->_obfuscator = $obfuscator;
                 $this->_prefixLength = $prefixLength;
             }
 
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function then(Obfuscator $other): Obfuscator
             {
                 return new class($this->_obfuscator, $this->_prefixLength, $other) extends Obfuscator
@@ -76,6 +83,7 @@ abstract class Obfuscator
                     private int $_lengthForFirst;
                     private Obfuscator $_second;
 
+                    // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     function __construct(Obfuscator $first, int $lengthForFirst, Obfuscator $second)
                     {
                         parent::__construct($lengthForFirst + 1);
@@ -84,6 +92,7 @@ abstract class Obfuscator
                         $this->_second = $second;
                     }
 
+                    // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateText(string $text): string
                     {
                         $end = mb_strlen($text);
