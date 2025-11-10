@@ -142,9 +142,8 @@ abstract class SplitPoint
      */
     public static function atFirst(string $s): SplitPoint
     {
-        if (mb_strlen($s) === 0) {
-            throw new ValueError("cannot split on empty strings");
-        }
+        SplitPoint::_checkNotEmpty($s);
+
         return new class($s) extends SplitPoint
         {
             private string $_splitAt;
@@ -183,9 +182,8 @@ abstract class SplitPoint
      */
     public static function atLast(string $s): SplitPoint
     {
-        if (mb_strlen($s) === 0) {
-            throw new ValueError("cannot split on empty strings");
-        }
+        SplitPoint::_checkNotEmpty($s);
+
         return new class($s) extends SplitPoint
         {
             private string $_splitAt;
@@ -225,12 +223,12 @@ abstract class SplitPoint
      */
     public static function atNth(string $s, int $occurrence): SplitPoint
     {
-        if (mb_strlen($s) === 0) {
-            throw new ValueError("cannot split on empty strings");
-        }
+        SplitPoint::_checkNotEmpty($s);
+
         if ($occurrence < 0) {
             throw new ValueError("$occurrence < 0");
         }
+
         return new class($s, $occurrence) extends SplitPoint
         {
             private string $_splitAt;
@@ -261,5 +259,12 @@ abstract class SplitPoint
                 return $this->_splitLength;
             }
         };
+    }
+
+    private static function _checkNotEmpty(string $s): void
+    {
+        if (mb_strlen($s) === 0) {
+            throw new ValueError("cannot split on empty strings");
+        }
     }
 }

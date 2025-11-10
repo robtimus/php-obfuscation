@@ -12,7 +12,7 @@ use ValueError;
  */
 final class Obfuscate
 {
-    private static ?Obfuscator $_NONE = null;
+    private static ?Obfuscator $_none = null;
 
     private function __construct()
     {
@@ -55,11 +55,11 @@ final class Obfuscate
      */
     public static function none(): Obfuscator
     {
-        if (is_null(Obfuscate::$_NONE)) {
-            Obfuscate::$_NONE = new class extends Obfuscator
+        if (is_null(Obfuscate::$_none)) {
+            Obfuscate::$_none = new class extends Obfuscator
             {
                 // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-                function __construct()
+                public function __construct()
                 {
                 }
 
@@ -70,7 +70,7 @@ final class Obfuscate
                 }
             };
         }
-        return Obfuscate::$_NONE;
+        return Obfuscate::$_none;
     }
 
     /**

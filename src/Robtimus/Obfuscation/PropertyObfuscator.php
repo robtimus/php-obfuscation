@@ -256,16 +256,15 @@ abstract class PropertyObfuscator
 
                     private function _obfuscateWithDefault(mixed $value, ?Obfuscator $defaultObfuscator): mixed
                     {
+                        $result = $value;
                         if (is_scalar($value) || is_null($value)) {
-                            return $this->_obfuscateScalar($value, $defaultObfuscator);
+                            $result = $this->_obfuscateScalar($value, $defaultObfuscator);
+                        } else if (is_object($value)) {
+                            $result = $this->_obfuscateObject($value, $defaultObfuscator);
+                        } else if (is_array($value)) {
+                            $result = $this->_obfuscateArray($value, $defaultObfuscator);
                         }
-                        if (is_object($value)) {
-                            return $this->_obfuscateObject($value, $defaultObfuscator);
-                        }
-                        if (is_array($value)) {
-                            return $this->_obfuscateArray($value, $defaultObfuscator);
-                        }
-                        return $value;
+                        return $result;
                     }
 
                     // phpcs:disable Generic.Files.LineLength.TooLong
@@ -280,29 +279,28 @@ abstract class PropertyObfuscator
                         if (is_null($propertyConfig)) {
                             return $this->_obfuscateWithDefault($value, $defaultObfuscator);
                         }
+                        $result = $value;
                         $obfuscator = $propertyConfig['obfuscator'];
                         if (is_scalar($value) || is_null($value)) {
-                            return $this->_obfuscateScalar($value, $obfuscator);
-                        }
-                        if (is_object($value)) {
+                            $result = $this->_obfuscateScalar($value, $obfuscator);
+                        } else if (is_object($value)) {
                             $obfuscationMode = $propertyConfig['forObjects'];
-                            return match ($obfuscationMode) {
+                            $result = match ($obfuscationMode) {
                                 PropertyObfuscationMode::SKIP                => $value,
                                 PropertyObfuscationMode::EXCLUDE             => $this->_obfuscateWithDefault($value, $defaultObfuscator),
                                 PropertyObfuscationMode::INHERIT             => $this->_obfuscateScalars($value, $obfuscator),
                                 PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->_obfuscateWithDefault($value, $obfuscator),
                             };
-                        }
-                        if (is_array($value)) {
+                        } else if (is_array($value)) {
                             $obfuscationMode = $propertyConfig['forArrays'];
-                            return match ($obfuscationMode) {
+                            $result = match ($obfuscationMode) {
                                 PropertyObfuscationMode::SKIP                => $value,
                                 PropertyObfuscationMode::EXCLUDE             => $this->_obfuscateWithDefault($value, $defaultObfuscator),
                                 PropertyObfuscationMode::INHERIT             => $this->_obfuscateScalars($value, $obfuscator),
                                 PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->_obfuscateWithDefault($value, $obfuscator),
                             };
                         }
-                        return $value;
+                        return $result;
                     }
 
                     private function _obfuscateObject(object $object, ?Obfuscator $defaultObfuscator): stdClass
@@ -318,9 +316,9 @@ abstract class PropertyObfuscator
                     /**
                      * Obfuscates an array.
                      *
-                     * @param array<mixed> $array
+                     * @param array<int|string, mixed> $array
                      *
-                     * @return array<mixed>
+                     * @return array<int|string, mixed>
                      */
                     private function _obfuscateArray(array $array, ?Obfuscator $defaultObfuscator): array
                     {
@@ -338,24 +336,23 @@ abstract class PropertyObfuscator
 
                     private function _obfuscateScalars(mixed $value, Obfuscator $obfuscator): mixed
                     {
+                        $result = $value;
                         if (is_scalar($value) || is_null($value)) {
-                            return $this->_obfuscateScalar($value, $obfuscator);
-                        }
-                        if (is_object($value)) {
+                            $result = $this->_obfuscateScalar($value, $obfuscator);
+                        } else if (is_object($value)) {
                             $obfuscated = new stdClass();
                             foreach ($value as $propertyName => $propertyValue) {
                                 $obfuscated->$propertyName = $this->_obfuscateScalars($propertyValue, $obfuscator);
                             }
-                            return $obfuscated;
-                        }
-                        if (is_array($value)) {
+                            $result = $obfuscated;
+                        } else if (is_array($value)) {
                             $obfuscated = [];
                             foreach ($value as $propertyName => $propertyValue) {
                                 $obfuscated[$propertyName] = $this->_obfuscateScalars($propertyValue, $obfuscator);
                             }
-                            return $obfuscated;
+                            $result = $obfuscated;
                         }
-                        return $value;
+                        return $result;
                     }
 
                     /**

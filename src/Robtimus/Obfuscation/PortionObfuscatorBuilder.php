@@ -184,8 +184,14 @@ final class PortionObfuscatorBuilder
             private string $_mask;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-            public function __construct(int $keepAtStart, int $keepAtEnd, int $atLeastFromStart, int $atLeastFromEnd, int $fixedTotalLength, string $mask)
-            {
+            public function __construct(
+                int    $keepAtStart,
+                int    $keepAtEnd,
+                int    $atLeastFromStart,
+                int    $atLeastFromEnd,
+                int    $fixedTotalLength,
+                string $mask
+            ) {
                 $this->_keepAtStart = $keepAtStart;
                 $this->_keepAtEnd = $keepAtEnd;
                 $this->_atLeastFromStart = $atLeastFromStart;
