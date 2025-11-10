@@ -259,9 +259,9 @@ abstract class PropertyObfuscator
                         $result = $value;
                         if (is_scalar($value) || is_null($value)) {
                             $result = $this->_obfuscateScalar($value, $defaultObfuscator);
-                        } else if (is_object($value)) {
+                        } elseif (is_object($value)) {
                             $result = $this->_obfuscateObject($value, $defaultObfuscator);
-                        } else if (is_array($value)) {
+                        } elseif (is_array($value)) {
                             $result = $this->_obfuscateArray($value, $defaultObfuscator);
                         }
                         return $result;
@@ -283,7 +283,7 @@ abstract class PropertyObfuscator
                         $obfuscator = $propertyConfig['obfuscator'];
                         if (is_scalar($value) || is_null($value)) {
                             $result = $this->_obfuscateScalar($value, $obfuscator);
-                        } else if (is_object($value)) {
+                        } elseif (is_object($value)) {
                             $obfuscationMode = $propertyConfig['forObjects'];
                             $result = match ($obfuscationMode) {
                                 PropertyObfuscationMode::SKIP                => $value,
@@ -291,7 +291,7 @@ abstract class PropertyObfuscator
                                 PropertyObfuscationMode::INHERIT             => $this->_obfuscateScalars($value, $obfuscator),
                                 PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->_obfuscateWithDefault($value, $obfuscator),
                             };
-                        } else if (is_array($value)) {
+                        } elseif (is_array($value)) {
                             $obfuscationMode = $propertyConfig['forArrays'];
                             $result = match ($obfuscationMode) {
                                 PropertyObfuscationMode::SKIP                => $value,
@@ -339,13 +339,13 @@ abstract class PropertyObfuscator
                         $result = $value;
                         if (is_scalar($value) || is_null($value)) {
                             $result = $this->_obfuscateScalar($value, $obfuscator);
-                        } else if (is_object($value)) {
+                        } elseif (is_object($value)) {
                             $obfuscated = new stdClass();
                             foreach ($value as $propertyName => $propertyValue) {
                                 $obfuscated->$propertyName = $this->_obfuscateScalars($propertyValue, $obfuscator);
                             }
                             $result = $obfuscated;
-                        } else if (is_array($value)) {
+                        } elseif (is_array($value)) {
                             $obfuscated = [];
                             foreach ($value as $propertyName => $propertyValue) {
                                 $obfuscated[$propertyName] = $this->_obfuscateScalars($propertyValue, $obfuscator);
