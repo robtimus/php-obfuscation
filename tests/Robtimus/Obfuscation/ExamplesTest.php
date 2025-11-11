@@ -78,6 +78,13 @@ class ExamplesTest extends TestCase
         $this->assertEquals('Hello World', $obfuscated);
     }
 
+    public function testObfuscateExploded(): void
+    {
+        $obfuscator = Obfuscate::exploded(', ', Obfuscate::fixedLength(3));
+        $obfuscated = $obfuscator->obfuscateText('a, b, c');
+        $this->assertEquals('***, ***, ***', $obfuscated);
+    }
+
     public function testCombiningObfuscatorsPortionOnly(): void
     {
         $obfuscator = Obfuscate::portion()
@@ -228,17 +235,21 @@ class ExamplesTest extends TestCase
     {
         $headerObfuscator = HeaderObfuscator::builder()
             ->withHeader('Authorization', Obfuscate::fixedLength(3))
+            ->withHeader('Multiple-values', Obfuscate::exploded(', ', Obfuscate::fixedLength(3)))
             ->build();
         $obfuscatedAuthorization = $headerObfuscator->obfuscateHeaderValue('authorization', 'Bearer someToken');
         $this->assertEquals('***', $obfuscatedAuthorization);
         $obfuscatedAuthorizations = $headerObfuscator->obfuscateHeaderValues('authorization', array('Bearer someToken'));
         $this->assertEquals(array('***'), $obfuscatedAuthorizations);
+        $obfuscatedMultipleValues = $headerObfuscator->obfuscateHeaderValue('multiple-values', 'value1, value2, value3');
+        $this->assertEquals('***, ***, ***', $obfuscatedMultipleValues);
         $obfuscatedContentType = $headerObfuscator->obfuscateHeaderValue('Content-Type', 'application/json');
         $this->assertEquals('application/json', $obfuscatedContentType);
         $obfuscatedHeaders = $headerObfuscator->obfuscateHeaders(array(
-            'authorization' => 'Bearer someToken',
-            'content-type'  => 'application/json',
+            'authorization'   => 'Bearer someToken',
+            'multiple-values' => 'value1, value2, value3',
+            'content-type'    => 'application/json',
         ));
-        $this->assertEquals(array('authorization' => '***', 'content-type' => 'application/json'), $obfuscatedHeaders);
+        $this->assertEquals(array('authorization' => '***', 'multiple-values' => '***, ***, ***', 'content-type' => 'application/json'), $obfuscatedHeaders);
     }
 }

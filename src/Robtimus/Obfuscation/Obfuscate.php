@@ -121,4 +121,54 @@ final class Obfuscate
     {
         return new PortionObfuscatorBuilder();
     }
+
+    /**
+     * Returns an immutable obfuscator that explodes strings, obfuscates each element, then implodes the array again.
+     *
+     * @param non-empty-string $separator  The separator to use for exploding.
+     * @param Obfuscator       $obfuscator The obfuscator to use for each element.
+     * @param int              $limit      The limit to use for exploding.
+     *
+     * @return Obfuscator An obfuscator that explodes strings, obfuscates each element, then implodes the array again.
+     */
+    public static function exploded(string $separator, Obfuscator $obfuscator, int $limit = PHP_INT_MAX): Obfuscator
+    {
+        return new class($separator, $obfuscator, $limit) extends Obfuscator
+        {
+            /**
+             * The separator to use for exploding.
+             *
+             * @var non-empty-string
+             */
+            private string $_separator;
+            private Obfuscator $_obfuscator;
+            private int $_limit;
+
+            // phpcs:disable PEAR.Commenting.FunctionComment.Missing, PEAR.Commenting.FunctionComment.MissingParamComment
+            /**
+             * Creates a new obfuscator.
+             *
+             * @param non-empty-string $separator
+             * @param Obfuscator       $obfuscator
+             * @param int              $limit
+             */
+            public function __construct(string $separator, Obfuscator $obfuscator, int $limit)
+            {
+                $this->_separator = $separator;
+                $this->_obfuscator = $obfuscator;
+                $this->_limit = $limit;
+            }
+            // phpcs:enable
+
+            // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
+            public function obfuscateText(string $text): string
+            {
+                $array = explode($this->_separator, $text, $this->_limit);
+                foreach ($array as &$value) {
+                    $value = $this->_obfuscator->obfuscateText($value);
+                }
+                return implode($this->_separator, $array);
+            }
+        };
+    }
 }

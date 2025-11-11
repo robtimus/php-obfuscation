@@ -114,6 +114,16 @@ $obfuscated = $obfuscator->obfuscateText('Hello World');
 // $obfuscated is 'Hello World' if $somePossiblyUndefinedObfuscator was null
 ```
 
+### Obfuscate::exploded
+
+Explodes the text to an array, obfuscates each element, then implodes the array again.
+
+```php
+$obfuscator = Obfuscate::exploded(', ', Obfuscate::fixedLength(3));
+$obfuscated = $obfuscator->obfuscateText('a, b, c');
+// $obfuscated is '***, ***, ***'
+```
+
 ### Combining obfuscators
 
 Sometimes the obfucators in this library alone cannot perform the obfuscation you need. For instance, if you want to obfuscate credit cards, but keep the first and last 4 characters. If the credit cards are all fixed length, `Obfuscate::portion` can do just that:
@@ -273,16 +283,20 @@ Use `HeaderObfuscator::builder` to start creating objects that can obfuscate sin
 ```php
 $headerObfuscator = HeaderObfuscator::builder()
     ->withHeader('Authorization', Obfuscate::fixedLength(3))
+    ->withHeader('Multiple-values', Obfuscate::exploded(', ', Obfuscate::fixedLength(3)))
     ->build();
 $obfuscatedAuthorization = $headerObfuscator->obfuscateHeaderValue('authorization', 'Bearer someToken');
 // $obfuscatedAuthorization is '***'
 $obfuscatedAuthorizations = $headerObfuscator->obfuscateHeaderValues('authorization', array('Bearer someToken'));
 // $obfuscatedAuthorizations is ['***']
+$obfuscatedMultipleValues = $headerObfuscator->obfuscateHeaderValue('multiple-values', 'value1, value2, value3');
+// $obfuscatedMultipleValues is '***, ***, ***'
 $obfuscatedContentType = $headerObfuscator->obfuscateHeaderValue('Content-Type', 'application/json');
 // $obfuscatedContentType is 'application/json'
 $obfuscatedHeaders = $headerObfuscator->obfuscateHeaders(array(
-    'authorization' => 'Bearer someToken',
-    'content-type'  => 'application/json',
+    'authorization'   => 'Bearer someToken',
+    'multiple-values' => 'value1, value2, value3',
+    'content-type'    => 'application/json',
 ));
-// $obfuscatedHeaders is ['authorization' => '***', 'content-type' => 'application/json']
+// $obfuscatedHeaders is ['authorization' => '***', 'multiple-values' => '***, ***, ***', 'content-type' => 'application/json']
 ```
