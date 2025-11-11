@@ -1,12 +1,24 @@
 <?php
-namespace Robtimus\Obfuscation\Http;
+namespace Robtimus\Obfuscation;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
-use Robtimus\Obfuscation\Obfuscate;
+use ValueError;
 
 class HeaderObfuscatorTest extends TestCase
 {
+    public function testDuplicateHeaderNames(): void
+    {
+        $obfuscator = Obfuscate::fixedLength(3);
+        $builder = HeaderObfuscator::builder()
+            ->withHeader('Authorization', $obfuscator);
+
+        $this->expectException(ValueError::class);
+        $this->expectExceptionMessage('Duplicate header name: authorization');
+
+        $builder->withHeader('authorization', $obfuscator);
+    }
+
     #[DataProvider('obfuscateValueParameters')]
     public function testObfuscateValue(HeaderObfuscator $obfuscator, string $name, string $value, string $expected): void
     {
@@ -18,9 +30,9 @@ class HeaderObfuscatorTest extends TestCase
      */
     public static function obfuscateValueParameters(): array
     {
-        $obfuscator = new HeaderObfuscator([
-            'Authorization' => Obfuscate::all(),
-        ]);
+        $obfuscator = HeaderObfuscator::builder()
+            ->withHeader('Authorization', Obfuscate::all())
+            ->build();
         return [
             [$obfuscator, 'authorization', 'value', '*****'],
             [$obfuscator, 'Authorization', 'value', '*****'],
@@ -48,9 +60,9 @@ class HeaderObfuscatorTest extends TestCase
      */
     public static function obfuscateValuesParameters(): array
     {
-        $obfuscator = new HeaderObfuscator([
-            'Authorization' => Obfuscate::portion()->keepAtEnd(2)->build(),
-        ]);
+        $obfuscator = HeaderObfuscator::builder()
+            ->withHeader('Authorization', Obfuscate::portion()->keepAtEnd(2)->build())
+            ->build();
         return [
             [$obfuscator, 'authorization', ['value1', 'value2'], ['****e1', '****e2']],
             [$obfuscator, 'Authorization', ['value1', 'value2'], ['****e1', '****e2']],

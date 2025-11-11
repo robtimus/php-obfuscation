@@ -113,7 +113,7 @@ EOD;
             ->withProperty('TEST', $obfuscator);
 
         $this->expectException(ValueError::class);
-        $this->expectExceptionMessage('Duplicate key: test (case sensitive)');
+        $this->expectExceptionMessage('Duplicate property name: test (case sensitive)');
 
         $builder->withProperty('test', $obfuscator, true);
     }
@@ -126,7 +126,7 @@ EOD;
             ->withProperty('test', $obfuscator, false);
 
         $this->expectException(ValueError::class);
-        $this->expectExceptionMessage('Duplicate key: TEST (case insensitive)');
+        $this->expectExceptionMessage('Duplicate property name: TEST (case insensitive)');
 
         $builder->withProperty('TEST', $obfuscator, false);
     }

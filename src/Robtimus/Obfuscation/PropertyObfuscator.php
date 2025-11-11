@@ -182,10 +182,10 @@ abstract class PropertyObfuscator
             private function _testProperty(string $propertyName, bool $caseSensitive): void
             {
                 if ($caseSensitive && isset($this->_caseSensitiveProperties[$propertyName])) {
-                    throw new ValueError("Duplicate key: $propertyName (case sensitive)");
+                    throw new ValueError("Duplicate property name: $propertyName (case sensitive)");
                 }
                 if (!$caseSensitive && isset($this->_caseInsensitiveProperties[mb_strtolower($propertyName)])) {
-                    throw new ValueError("Duplicate key: $propertyName (case insensitive)");
+                    throw new ValueError("Duplicate property name: $propertyName (case insensitive)");
                 }
             }
 
