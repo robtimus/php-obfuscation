@@ -70,4 +70,25 @@ class HeaderObfuscatorTest extends TestCase
             [$obfuscator, 'Other', ['value1', 'value2'], ['value1', 'value2']],
         ];
     }
+
+    public function testBuildCreatesHeadersSnapshot(): void
+    {
+        $builder = HeaderObfuscator::builder()
+            ->withHeader('Authorization', Obfuscate::fixedLength(3));
+
+        $obfuscator = $builder->build();
+
+        $this->assertEquals('***', $obfuscator->obfuscateValue('authorization', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateValue('test', 'value'));
+
+        $builder->withHeader('test', Obfuscate::all());
+
+        $this->assertEquals('***', $obfuscator->obfuscateValue('authorization', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateValue('test', 'value'));
+
+        $obfuscator2 = $builder->build();
+
+        $this->assertEquals('***', $obfuscator2->obfuscateValue('authorization', 'value'));
+        $this->assertEquals('*****', $obfuscator2->obfuscateValue('test', 'value'));
+    }
 }

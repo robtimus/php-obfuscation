@@ -205,7 +205,7 @@ abstract class PropertyObfuscator
                      *     'forArrays': PropertyObfuscationMode
                      * }>
                      */
-                    private array $_caseSensitiveProperties = [];
+                    private array $_caseSensitiveProperties;
                     /**
                      * Case insensitively matched properties.
                      *
@@ -215,7 +215,7 @@ abstract class PropertyObfuscator
                      *     'forArrays': PropertyObfuscationMode
                      * }>
                      */
-                    private array $_caseInsensitiveProperties = [];
+                    private array $_caseInsensitiveProperties;
 
                     // phpcs:disable Generic.Files.LineLength.TooLong, PEAR.Commenting.FunctionComment.MissingParamComment
                     /**

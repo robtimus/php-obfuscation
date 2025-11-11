@@ -2042,4 +2042,32 @@ EOD;
             [false],
         ];
     }
+
+    public function testBuildCreatesPropertiesSnapshots(): void
+    {
+        $builder = PropertyObfuscator::builder()
+            ->withProperty('test1', Obfuscate::fixedLength(3), true)
+            ->withProperty('test1', Obfuscate::all(), false);
+
+        $obfuscator = $builder->build();
+
+        $this->assertEquals('***', $obfuscator->obfuscateProperty('test1', 'value'));
+        $this->assertEquals('*****', $obfuscator->obfuscateProperty('TEST1', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateProperty('test2', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateProperty('TEST2', 'value'));
+
+        $builder->withProperty('test2', Obfuscate::all(), true)->withProperty('test2', Obfuscate::fixedValue('xxx'), false);
+
+        $this->assertEquals('***', $obfuscator->obfuscateProperty('test1', 'value'));
+        $this->assertEquals('*****', $obfuscator->obfuscateProperty('TEST1', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateProperty('test2', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateProperty('TEST2', 'value'));
+
+        $obfuscator2 = $builder->build();
+
+        $this->assertEquals('***', $obfuscator2->obfuscateProperty('test1', 'value'));
+        $this->assertEquals('*****', $obfuscator2->obfuscateProperty('TEST1', 'value'));
+        $this->assertEquals('*****', $obfuscator2->obfuscateProperty('test2', 'value'));
+        $this->assertEquals('xxx', $obfuscator2->obfuscateProperty('TEST2', 'value'));
+    }
 }

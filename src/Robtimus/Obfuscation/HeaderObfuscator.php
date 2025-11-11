@@ -43,53 +43,52 @@ abstract class HeaderObfuscator
         return new class implements HeaderObfuscatorBuilder
         {
             /**
-             * An array with lower-case header names as keys and obfuscators as values.
+             * Case insensitively matched headers.
              *
              * @var array<string, Obfuscator>
              */
-            private array $_obfuscators;
+            private array $_headers = [];
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function withHeader(string $headerName, Obfuscator $obfuscator): HeaderObfuscatorBuilder
             {
                 $lowerCaseHeaderName = mb_strtolower($headerName);
-                if (isset($this->_obfuscators[$lowerCaseHeaderName])) {
+                if (isset($this->_headers[$lowerCaseHeaderName])) {
                     throw new ValueError("Duplicate header name: $headerName");
                 }
 
-                $this->_obfuscators[$lowerCaseHeaderName] = $obfuscator;
+                $this->_headers[$lowerCaseHeaderName] = $obfuscator;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function build(): HeaderObfuscator
             {
-                return new class($this->_obfuscators) extends HeaderObfuscator
+                return new class($this->_headers) extends HeaderObfuscator
                 {
                     /**
-                     * An array with lower-case header names as keys and obfuscators as values.
+                     * Case insensitively matched headers
                      *
                      * @var array<string, Obfuscator>
                      */
-                    private array $_obfuscators;
+                    private array $_headers;
 
                     /**
-                     * Creates a new header obfuscator.
+                     * Creates a new `HeaderObfuscator`.
                      *
-                     * @param array<string, Obfuscator> $obfuscators An array with header names as keys and the obfuscators for those header names as
-                     *                                               values.
+                     * @param array<string, Obfuscator> $headers Case insensitively matched headers.
                      */
-                    public function __construct(array $obfuscators)
+                    public function __construct(array $headers)
                     {
-                        $this->_obfuscators = $obfuscators;
+                        $this->_headers = $headers;
                     }
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateValue(string $headerName, string $value): string
                     {
                         $lowerCaseHeaderName = mb_strtolower($headerName);
-                        return isset($this->_obfuscators[$lowerCaseHeaderName])
-                            ? $this->_obfuscators[$lowerCaseHeaderName]->obfuscateText($value)
+                        return isset($this->_headers[$lowerCaseHeaderName])
+                            ? $this->_headers[$lowerCaseHeaderName]->obfuscateText($value)
                             : $value;
                     }
 
@@ -97,8 +96,8 @@ abstract class HeaderObfuscator
                     public function obfuscateValues(string $headerName, array &$values): array
                     {
                         $lowerCaseHeaderName = mb_strtolower($headerName);
-                        if (isset($this->_obfuscators[$lowerCaseHeaderName])) {
-                            $obfuscator = $this->_obfuscators[$lowerCaseHeaderName];
+                        if (isset($this->_headers[$lowerCaseHeaderName])) {
+                            $obfuscator = $this->_headers[$lowerCaseHeaderName];
                             $obfuscated = [];
                             foreach ($values as $value) {
                                 $obfuscated[] = $obfuscator->obfuscateText($value);
@@ -107,7 +106,6 @@ abstract class HeaderObfuscator
                         }
                         return $values;
                     }
-
                 };
             }
         };
