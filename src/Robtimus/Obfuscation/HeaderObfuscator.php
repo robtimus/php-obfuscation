@@ -21,7 +21,7 @@ abstract class HeaderObfuscator
      *
      * @return string The obfuscated header value.
      */
-    abstract public function obfuscateValue(string $headerName, string $value): string;
+    abstract public function obfuscateHeaderValue(string $headerName, string $value): string;
 
     /**
      * Obfuscates multiple values of a header.
@@ -31,7 +31,27 @@ abstract class HeaderObfuscator
      *
      * @return array<string> The obfuscated header values.
      */
-    abstract public function obfuscateValues(string $headerName, array &$values): array;
+    abstract public function obfuscateHeaderValues(string $headerName, array $values): array;
+
+    /**
+     * Obfuscates multiple headers.
+     *
+     * @param array<string, string|array<string>> $headers The headers to obfuscate.
+     *
+     * @return array<string, string|array<string>> The obfuscated headers.
+     */
+    public function obfuscateHeaders(array $headers): array
+    {
+        $result = [];
+        foreach ($headers as $name => $value) {
+            if (is_string($value)) {
+                $result[$name] = $this->obfuscateHeaderValue($name, $value);
+            } else {
+                $result[$name] = $this->obfuscateHeaderValues($name, $value);
+            }
+        }
+        return $result;
+    }
 
     /**
      * Creates a new builder for `HeaderObfuscator` instances.
@@ -84,7 +104,7 @@ abstract class HeaderObfuscator
                     }
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-                    public function obfuscateValue(string $headerName, string $value): string
+                    public function obfuscateHeaderValue(string $headerName, string $value): string
                     {
                         $lowerCaseHeaderName = mb_strtolower($headerName);
                         return isset($this->_headers[$lowerCaseHeaderName])
@@ -93,7 +113,7 @@ abstract class HeaderObfuscator
                     }
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
-                    public function obfuscateValues(string $headerName, array &$values): array
+                    public function obfuscateHeaderValues(string $headerName, array $values): array
                     {
                         $lowerCaseHeaderName = mb_strtolower($headerName);
                         if (isset($this->_headers[$lowerCaseHeaderName])) {

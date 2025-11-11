@@ -19,16 +19,16 @@ class HeaderObfuscatorTest extends TestCase
         $builder->withHeader('authorization', $obfuscator);
     }
 
-    #[DataProvider('obfuscateValueParameters')]
-    public function testObfuscateValue(HeaderObfuscator $obfuscator, string $name, string $value, string $expected): void
+    #[DataProvider('obfuscateHeaderValueParameters')]
+    public function testobfuscateHeaderValue(HeaderObfuscator $obfuscator, string $name, string $value, string $expected): void
     {
-        $this->assertEquals($expected, $obfuscator->obfuscateValue($name, $value));
+        $this->assertEquals($expected, $obfuscator->obfuscateHeaderValue($name, $value));
     }
 
     /**
      * @return array<array{0: HeaderObfuscator, 1: string, 2: string, 3: string}>
      */
-    public static function obfuscateValueParameters(): array
+    public static function obfuscateHeaderValueParameters(): array
     {
         $obfuscator = HeaderObfuscator::builder()
             ->withHeader('Authorization', Obfuscate::all())
@@ -45,10 +45,10 @@ class HeaderObfuscatorTest extends TestCase
      * @param array<string> $values
      * @param array<string> $expected
      */
-    #[DataProvider('obfuscateValuesParameters')]
-    public function testObfuscateValues(HeaderObfuscator $obfuscator, string $name, array $values, array $expected): void
+    #[DataProvider('obfuscateHeaderValuesParameters')]
+    public function testobfuscateHeaderValues(HeaderObfuscator $obfuscator, string $name, array $values, array $expected): void
     {
-        $obfuscated = $obfuscator->obfuscateValues($name, $values);
+        $obfuscated = $obfuscator->obfuscateHeaderValues($name, $values);
         $this->assertEquals($expected, $obfuscated);
         if ($values !== $expected) {
             $this->assertNotEquals($values, $obfuscated);
@@ -58,7 +58,7 @@ class HeaderObfuscatorTest extends TestCase
     /**
      * @return array<array{0: HeaderObfuscator, 1: string, 2: array<string>, 3: array<string>}>
      */
-    public static function obfuscateValuesParameters(): array
+    public static function obfuscateHeaderValuesParameters(): array
     {
         $obfuscator = HeaderObfuscator::builder()
             ->withHeader('Authorization', Obfuscate::portion()->keepAtEnd(2)->build())
@@ -71,6 +71,32 @@ class HeaderObfuscatorTest extends TestCase
         ];
     }
 
+    public function testObfuscateHeaders(): void
+    {
+        $obfuscator = HeaderObfuscator::builder()
+            ->withHeader('Authorization', Obfuscate::fixedLength(3))
+            ->withHeader('Authorizations', Obfuscate::fixedLength(5))
+            ->build();
+
+        $headers = [
+            'authorization'  => 'value',
+            'authorizations' => ['value1', 'value2'],
+            'other1'         => 'value',
+            'other2'         => ['value1', 'value2'],
+        ];
+
+        $expected = [
+            'authorization'  => '***',
+            'authorizations' => ['*****', '*****'],
+            'other1'         => 'value',
+            'other2'         => ['value1', 'value2'],
+        ];
+
+        $obfuscated = $obfuscator->obfuscateHeaders($headers);
+
+        $this->assertEquals($expected, $obfuscated);
+    }
+
     public function testBuildCreatesHeadersSnapshot(): void
     {
         $builder = HeaderObfuscator::builder()
@@ -78,17 +104,17 @@ class HeaderObfuscatorTest extends TestCase
 
         $obfuscator = $builder->build();
 
-        $this->assertEquals('***', $obfuscator->obfuscateValue('authorization', 'value'));
-        $this->assertEquals('value', $obfuscator->obfuscateValue('test', 'value'));
+        $this->assertEquals('***', $obfuscator->obfuscateHeaderValue('authorization', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateHeaderValue('test', 'value'));
 
         $builder->withHeader('test', Obfuscate::all());
 
-        $this->assertEquals('***', $obfuscator->obfuscateValue('authorization', 'value'));
-        $this->assertEquals('value', $obfuscator->obfuscateValue('test', 'value'));
+        $this->assertEquals('***', $obfuscator->obfuscateHeaderValue('authorization', 'value'));
+        $this->assertEquals('value', $obfuscator->obfuscateHeaderValue('test', 'value'));
 
         $obfuscator2 = $builder->build();
 
-        $this->assertEquals('***', $obfuscator2->obfuscateValue('authorization', 'value'));
-        $this->assertEquals('*****', $obfuscator2->obfuscateValue('test', 'value'));
+        $this->assertEquals('***', $obfuscator2->obfuscateHeaderValue('authorization', 'value'));
+        $this->assertEquals('*****', $obfuscator2->obfuscateHeaderValue('test', 'value'));
     }
 }
