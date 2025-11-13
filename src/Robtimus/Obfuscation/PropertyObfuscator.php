@@ -306,6 +306,7 @@ abstract class PropertyObfuscator
                     private function _obfuscateObject(object $object, ?Obfuscator $defaultObfuscator): stdClass
                     {
                         $obfuscated = new stdClass();
+                        // @phpstan-ignore foreach.nonIterable
                         foreach ($object as $propertyName => $value) {
                             $propertyConfig = $this->_getPropertyConfig($propertyName);
                             $obfuscated->$propertyName = $this->_obfuscateValue($value, $propertyConfig, $defaultObfuscator);
@@ -341,6 +342,7 @@ abstract class PropertyObfuscator
                             $result = $this->_obfuscateScalar($value, $obfuscator);
                         } elseif (is_object($value)) {
                             $obfuscated = new stdClass();
+                            // @phpstan-ignore foreach.nonIterable
                             foreach ($value as $propertyName => $propertyValue) {
                                 $obfuscated->$propertyName = $this->_obfuscateScalars($propertyValue, $obfuscator);
                             }
