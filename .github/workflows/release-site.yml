@@ -28,11 +28,6 @@ jobs:
       - uses: actions/checkout@v5
         with:
           persist-credentials: false
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          # highest version to support apigen/apigen
-          php-version: '7.1'
       - name: Generate API
         run: mkdir -p docs && docker run --rm -v "$GITHUB_WORKSPACE/code:/workspace" -w /workspace -u `id -u`:`id -g` apigen/apigen
       - uses: actions/upload-artifact@v4

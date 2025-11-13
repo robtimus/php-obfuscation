@@ -4,9 +4,6 @@ parameters:
     - tests
   level: 9
 
-  #treatPhpDocTypesAsCertain: false
-  #checkMissingCallableSignature: true
-
   ignoreErrors:
     - message: '#Argument of an invalid type object supplied for foreach, only iterables are supported.#'
       path: src/Robtimus/Obfuscation/PropertyObfuscator.php
