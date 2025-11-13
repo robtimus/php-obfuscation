@@ -135,6 +135,7 @@ EOD;
     public function testObfuscatePropertyGloballyCaseSensitive(string $propertyName, string $value, string $expected): void
     {
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseSensitiveByDefault()
             ->withProperty('string', $obfuscator)
@@ -142,6 +143,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperty($propertyName, $value);
 
@@ -164,6 +166,7 @@ EOD;
     public function testObfuscatePropertyGloballyCaseInsensitive(string $propertyName, string $value, string $expected): void
     {
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseInsensitiveByDefault()
             ->withProperty('STRING', $obfuscator)
@@ -171,6 +174,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperty($propertyName, $value);
 
@@ -194,13 +198,14 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, false);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseSensitiveByDefault()
             ->withProperty('string', $obfuscator)
             ->withProperty('int', $obfuscator)
             ->withProperty('float', $obfuscator)
             ->withProperty('booleanTrue', $obfuscator)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
             ->withProperty('array', Obfuscate::fixedLength(3, 'a'))
             ->withProperty('null', $obfuscator)
@@ -208,6 +213,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -338,13 +344,14 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, false);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseInsensitiveByDefault()
             ->withProperty('STRING', $obfuscator)
             ->withProperty('INT', $obfuscator)
             ->withProperty('FLOAT', $obfuscator)
             ->withProperty('BOOLEANTRUE', $obfuscator)
-            ->withProperty('BOOLEANFALSE',$obfuscator)
+            ->withProperty('BOOLEANFALSE', $obfuscator)
             ->withProperty('OBJECT', Obfuscate::fixedLength(3, 'o'))
             ->withProperty('ARRAY', Obfuscate::fixedLength(3, 'a'))
             ->withProperty('NULL', $obfuscator)
@@ -352,6 +359,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -482,6 +490,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, false);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->forObjectsByDefault(PropertyObfuscationMode::EXCLUDE)
             ->forArraysByDefault(PropertyObfuscationMode::EXCLUDE)
@@ -489,7 +498,7 @@ EOD;
             ->withProperty('int', $obfuscator)
             ->withProperty('float', $obfuscator)
             ->withProperty('booleanTrue', $obfuscator)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
             ->withProperty('array', Obfuscate::fixedLength(3, 'a'))
             ->withProperty('null', $obfuscator)
@@ -497,6 +506,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -627,6 +637,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, false);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->forObjectsByDefault(PropertyObfuscationMode::INHERIT)
             ->forArraysByDefault(PropertyObfuscationMode::INHERIT)
@@ -642,7 +653,7 @@ EOD;
             ->withProperty('booleanTrue', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::EXCLUDE)
                 ->forArrays(PropertyObfuscationMode::EXCLUDE)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::EXCLUDE)
                 ->forArrays(PropertyObfuscationMode::EXCLUDE)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
@@ -658,6 +669,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::EXCLUDE)
                 ->forArrays(PropertyObfuscationMode::EXCLUDE)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -788,6 +800,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, false);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->withProperty('string', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT)
@@ -801,7 +814,7 @@ EOD;
             ->withProperty('booleanTrue', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT)
                 ->forArrays(PropertyObfuscationMode::INHERIT)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT)
                 ->forArrays(PropertyObfuscationMode::INHERIT)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
@@ -817,6 +830,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -947,6 +961,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, false);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->withProperty('string', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
@@ -960,7 +975,7 @@ EOD;
             ->withProperty('booleanTrue', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
                 ->forArrays(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
                 ->forArrays(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
@@ -976,6 +991,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -1106,13 +1122,14 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, true);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseSensitiveByDefault()
             ->withProperty('string', $obfuscator)
             ->withProperty('int', $obfuscator)
             ->withProperty('float', $obfuscator)
             ->withProperty('booleanTrue', $obfuscator)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
             ->withProperty('array', Obfuscate::fixedLength(3, 'a'))
             ->withProperty('null', $obfuscator)
@@ -1120,6 +1137,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -1250,13 +1268,14 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, true);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseInsensitiveByDefault()
             ->withProperty('STRING', $obfuscator)
             ->withProperty('INT', $obfuscator)
             ->withProperty('FLOAT', $obfuscator)
             ->withProperty('BOOLEANTRUE', $obfuscator)
-            ->withProperty('BOOLEANFALSE',$obfuscator)
+            ->withProperty('BOOLEANFALSE', $obfuscator)
             ->withProperty('OBJECT', Obfuscate::fixedLength(3, 'o'))
             ->withProperty('ARRAY', Obfuscate::fixedLength(3, 'a'))
             ->withProperty('NULL', $obfuscator)
@@ -1264,6 +1283,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -1394,6 +1414,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, true);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->forObjectsByDefault(PropertyObfuscationMode::EXCLUDE)
             ->forArraysByDefault(PropertyObfuscationMode::EXCLUDE)
@@ -1401,7 +1422,7 @@ EOD;
             ->withProperty('int', $obfuscator)
             ->withProperty('float', $obfuscator)
             ->withProperty('booleanTrue', $obfuscator)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
             ->withProperty('array', Obfuscate::fixedLength(3, 'a'))
             ->withProperty('null', $obfuscator)
@@ -1409,6 +1430,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -1539,6 +1561,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, true);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->forObjectsByDefault(PropertyObfuscationMode::INHERIT)
             ->forArraysByDefault(PropertyObfuscationMode::INHERIT)
@@ -1554,7 +1577,7 @@ EOD;
             ->withProperty('booleanTrue', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::EXCLUDE)
                 ->forArrays(PropertyObfuscationMode::EXCLUDE)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::EXCLUDE)
                 ->forArrays(PropertyObfuscationMode::EXCLUDE)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
@@ -1570,6 +1593,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::EXCLUDE)
                 ->forArrays(PropertyObfuscationMode::EXCLUDE)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -1700,6 +1724,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, true);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->withProperty('string', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT)
@@ -1713,7 +1738,7 @@ EOD;
             ->withProperty('booleanTrue', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT)
                 ->forArrays(PropertyObfuscationMode::INHERIT)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT)
                 ->forArrays(PropertyObfuscationMode::INHERIT)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
@@ -1729,6 +1754,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -1859,6 +1885,7 @@ EOD;
         $inputObject = json_decode(self::INPUT_JSON, true);
 
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->withProperty('string', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
@@ -1872,7 +1899,7 @@ EOD;
             ->withProperty('booleanTrue', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
                 ->forArrays(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
-            ->withProperty('booleanFalse',$obfuscator)
+            ->withProperty('booleanFalse', $obfuscator)
                 ->forObjects(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
                 ->forArrays(PropertyObfuscationMode::INHERIT_OVERRIDABLE)
             ->withProperty('object', Obfuscate::fixedLength(3, 'o'))
@@ -1888,6 +1915,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($inputObject);
 
@@ -2017,6 +2045,7 @@ EOD;
     public function testObfuscateScalars(mixed $value): void
     {
         $obfuscator = Obfuscate::fixedLength(3);
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->caseSensitiveByDefault()
             ->withProperty('string', $obfuscator)
@@ -2024,6 +2053,7 @@ EOD;
                 ->forObjects(PropertyObfuscationMode::SKIP)
                 ->forArrays(PropertyObfuscationMode::SKIP)
             ->build();
+        // phpcs:enable
 
         $obfuscated = $propertyObfuscator->obfuscateProperties($value);
 

@@ -69,7 +69,7 @@ jobs:
       - name: Install dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: PHPCS
-        run: phpcs src
+        run: phpcs src/ tests/
 
   test:
     runs-on: ubuntu-latest

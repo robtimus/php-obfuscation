@@ -108,11 +108,12 @@ class ExamplesTest extends TestCase
 
     public function testCombiningObfuscatorsAnyLengthCreditCardNumbers(): void
     {
-        $obfuscator = Obfuscate::none()->untilLength(4)
-            ->then(Obfuscate::portion()
+        $obfuscator = Obfuscate::none()->untilLength(4)->then(
+            Obfuscate::portion()
                 ->keepAtEnd(4)
                 ->atLeastFromStart(8)
-                ->build());
+                ->build()
+        );
         $obfuscated = $obfuscator->obfuscateText('12345678901234');
         $this->assertEquals('1234********34', $obfuscated);
     }
@@ -186,11 +187,13 @@ class ExamplesTest extends TestCase
 
     public function testObfuscatingObjectPropertiesConfiguredPerProperty(): void
     {
+        // phpcs:disable PEAR.WhiteSpace.ObjectOperatorIndent
         $propertyObfuscator = PropertyObfuscator::builder()
             ->withProperty('password', Obfuscate::fixedLength(3), false) // defaults to true
                 ->forObjects(PropertyObfuscationMode::EXCLUDE) // defaults to INHERIT
                 ->forArrays(PropertyObfuscationMode::EXCLUDE) // defaults to INHERIT
             ->build();
+        // phpcs:enable
         $obfuscatedPassword = $propertyObfuscator->obfuscateProperty('password', 'admin1234');
         $this->assertEquals('***', $obfuscatedPassword);
         $obfuscatedUsername = $propertyObfuscator->obfuscateProperty('username', 'admin');
@@ -245,11 +248,16 @@ class ExamplesTest extends TestCase
         $this->assertEquals('***, ***, ***', $obfuscatedMultipleValues);
         $obfuscatedContentType = $headerObfuscator->obfuscateHeaderValue('Content-Type', 'application/json');
         $this->assertEquals('application/json', $obfuscatedContentType);
-        $obfuscatedHeaders = $headerObfuscator->obfuscateHeaders(array(
-            'authorization'   => 'Bearer someToken',
-            'multiple-values' => 'value1, value2, value3',
-            'content-type'    => 'application/json',
-        ));
-        $this->assertEquals(array('authorization' => '***', 'multiple-values' => '***, ***, ***', 'content-type' => 'application/json'), $obfuscatedHeaders);
+        $obfuscatedHeaders = $headerObfuscator->obfuscateHeaders(
+            array(
+                'authorization'   => 'Bearer someToken',
+                'multiple-values' => 'value1, value2, value3',
+                'content-type'    => 'application/json',
+            )
+        );
+        $this->assertEquals(
+            array('authorization' => '***', 'multiple-values' => '***, ***, ***', 'content-type' => 'application/json'),
+            $obfuscatedHeaders
+        );
     }
 }
