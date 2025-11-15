@@ -1,0 +1,446 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Class Robtimus\Obfuscation\Obfuscate | robtimus/obfuscation API</title>
+	<link rel="stylesheet" href="assets/main.css">
+	<script src="assets/main.js" defer></script>
+</head>
+
+<body class="layout">
+	<div class="layout-aside">
+	<div class="menu">
+			<div class="menu-section">
+				<h3>Namespaces</h3>
+	<ul>
+			<li class="menuGroup-item active">
+				<a href="namespace-Robtimus.html">Robtimus</a>
+	<ul>
+			<li class="menuGroup-item active">
+				<a href="namespace-Robtimus.Obfuscation.html">Obfuscation</a>
+			</li>
+	</ul>
+			</li>
+	</ul>
+			</div>
+
+		<div class="menu-section">
+			<h3>Classes</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.HeaderObfuscator.html">
+							HeaderObfuscator
+						</a>
+					</li>
+					<li class="active">
+						<a href="Robtimus.Obfuscation.Obfuscate.html">
+							Obfuscate
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.Obfuscator.html">
+							Obfuscator
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PortionObfuscatorBuilder.html">
+							PortionObfuscatorBuilder
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscator.html">
+							PropertyObfuscator
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.SplitPoint.html">
+							SplitPoint
+						</a>
+					</li>
+			</ul>
+		</div>
+
+		<div class="menu-section">
+			<h3>Interfaces</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.HeaderObfuscatorBuilder.html">
+							HeaderObfuscatorBuilder
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.ObfuscatorPrefix.html">
+							ObfuscatorPrefix
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyConfigurer.html">
+							PropertyConfigurer
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscatorBuilder.html">
+							PropertyObfuscatorBuilder
+						</a>
+					</li>
+			</ul>
+		</div>
+
+
+		<div class="menu-section">
+			<h3>Enums</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscationMode.html">
+							PropertyObfuscationMode
+						</a>
+					</li>
+			</ul>
+		</div>
+
+
+	</div>
+	</div>
+
+	<div class="layout-main">
+		<div class="layout-navbar">
+	<nav class="navbar">
+		<div class="navbar-left">
+			<ul class="navbar-links">
+				<li>
+					<a href="index.html">Overview</a>
+				</li>
+				<li>
+					
+						<a href="namespace-Robtimus.Obfuscation.html">Namespace</a>
+					
+				</li>
+<li class="active"><a href="Robtimus.Obfuscation.Obfuscate.html">Class</a></li>				<li>
+					<a href="tree.html">Tree</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navbar-right">
+	<div class="search" data-elements="assets/elements.js">
+		<input class="search-input" placeholder="Search class, function or namespace" autofocus>
+		<ul class="search-results"></ul>
+	</div>
+		</div>
+	</nav>
+		</div>
+
+		<div class="layout-content">
+		<h1>
+			Class <a href="namespace-Robtimus.html">Robtimus</a>\<a href="namespace-Robtimus.Obfuscation.html">Obfuscation</a>\<a href="Robtimus.Obfuscation.Obfuscate.html">Obfuscate</a>
+		</h1>
+
+
+	<table class="classLikeSignatureTable">
+
+			<tr><th><code>final</code></th></tr>
+
+
+	</table>
+		<div class="classLikeDescription">
+	<div class="description"><p>A factory class for <code>Obfuscator</code> instances.</p>
+</div>
+		</div>
+
+
+		<div class="classLikeSection">
+			<b>Located at</b> <a href="source-Robtimus.Obfuscation.Obfuscate.html#13" title="Go to source code">Robtimus/Obfuscation/Obfuscate.php</a><br>
+		</div>
+
+
+
+		<table class="table" id="methods">
+			<tr>
+				<th class="table-heading sortable" colspan="3" title="Switch between natural and alphabetical order">Methods</th>
+			</tr>
+
+	<tr class="expandable collapsed" data-order="all" id="_all">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.Obfuscate.html#20-46" title="Go to source code">all</a>(<span>string <var>$mask</var> = <span class="php-str">'*'</span></span>): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Returns an immutable obfuscator that replaces all characters with a specific string.
+The length of obfuscated contents…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns an immutable obfuscator that replaces all characters with a specific string.
+The length of obfuscated contents will be as long as the length of the source times the length of the mask.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$mask</var>&nbsp;&nbsp;</td>
+										<td><p>The string to replace with.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>An obfuscator that replaces all characters with the given mask.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_all">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="none" id="_none">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.Obfuscate.html#48-69" title="Go to source code">none</a>(): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Returns an immutable obfuscator that does not obfuscate anything.
+This can be used as default value to prevent having…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns an immutable obfuscator that does not obfuscate anything.
+This can be used as default value to prevent having to check for null.</p>
+</div>
+
+
+							<h4>Returns</h4>
+							<div><p>An obfuscator that does not obfuscate anything.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_none">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="fixedLength" id="_fixedLength">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.Obfuscate.html#71-86" title="Go to source code">fixedLength</a>(<span>int <var>$fixedLength</var></span>, <span>string <var>$mask</var> = <span class="php-str">'*'</span></span>): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Returns an immutable obfuscator that replaces all characters with a fixed number of a specific string.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns an immutable obfuscator that replaces all characters with a fixed number of a specific string.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$fixedLength</var>&nbsp;&nbsp;</td>
+										<td><p>The fixed length.</p>
+</td>
+									</tr>
+									<tr>
+										<td><var>$mask</var>&nbsp;&nbsp;</td>
+										<td><p>The string to replace with.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>An obfuscator that replaces all characters with the given number of the given string.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the given length is negative.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_fixedLength">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="fixedValue" id="_fixedValue">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.Obfuscate.html#88-113" title="Go to source code">fixedValue</a>(<span>string <var>$fixedValue</var></span>): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Returns an immutable obfuscator that replaces all characters with a fixed value.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns an immutable obfuscator that replaces all characters with a fixed value.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$fixedValue</var>&nbsp;&nbsp;</td>
+										<td><p>The fixed value.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>An obfuscator that replaces all characters with the given fixed value.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_fixedValue">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="portion" id="_portion">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.Obfuscate.html#115-123" title="Go to source code">portion</a>(): <a href="Robtimus.Obfuscation.PortionObfuscatorBuilder.html"><span title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Returns a builder for obfuscators that obfuscate a specific portion of their input.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns a builder for obfuscators that obfuscate a specific portion of their input.</p>
+</div>
+
+
+							<h4>Returns</h4>
+							<div><p>A builder for obfuscators that obfuscate a specific portion of their input.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_portion">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="exploded" id="_exploded">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.Obfuscate.html#125-173" title="Go to source code">exploded</a>(<span>non-empty-string <var>$separator</var></span>, <span><a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a> <var>$obfuscator</var></span>, <span>int <var>$limit</var> = PHP_INT_MAX</span>): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Returns an immutable obfuscator that explodes strings, obfuscates each element, then implodes the array again.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns an immutable obfuscator that explodes strings, obfuscates each element, then implodes the array again.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$separator</var>&nbsp;&nbsp;</td>
+										<td><p>The separator to use for exploding.</p>
+</td>
+									</tr>
+									<tr>
+										<td><var>$obfuscator</var>&nbsp;&nbsp;</td>
+										<td><p>The obfuscator to use for each element.</p>
+</td>
+									</tr>
+									<tr>
+										<td><var>$limit</var>&nbsp;&nbsp;</td>
+										<td><p>The limit to use for exploding.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>An obfuscator that explodes strings, obfuscates each element, then implodes the array again.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_exploded">#</a>
+		</td>
+	</tr>
+		</table>
+
+
+
+
+
+
+
+
+		</div>
+
+		<div class="layout-footer">
+			robtimus/obfuscation API documentation generated by <a href="https://www.apigen.org">ApiGen v7.0.0-alpha.4</a>
+		</div>
+	</div>
+
+	<div class="layout-rest">
+		<div class="navbar"></div>
+	</div>
+</body>
+</html>

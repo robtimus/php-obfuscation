@@ -1,0 +1,505 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Class Robtimus\Obfuscation\SplitPoint | robtimus/obfuscation API</title>
+	<link rel="stylesheet" href="assets/main.css">
+	<script src="assets/main.js" defer></script>
+</head>
+
+<body class="layout">
+	<div class="layout-aside">
+	<div class="menu">
+			<div class="menu-section">
+				<h3>Namespaces</h3>
+	<ul>
+			<li class="menuGroup-item active">
+				<a href="namespace-Robtimus.html">Robtimus</a>
+	<ul>
+			<li class="menuGroup-item active">
+				<a href="namespace-Robtimus.Obfuscation.html">Obfuscation</a>
+			</li>
+	</ul>
+			</li>
+	</ul>
+			</div>
+
+		<div class="menu-section">
+			<h3>Classes</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.HeaderObfuscator.html">
+							HeaderObfuscator
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.Obfuscate.html">
+							Obfuscate
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.Obfuscator.html">
+							Obfuscator
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PortionObfuscatorBuilder.html">
+							PortionObfuscatorBuilder
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscator.html">
+							PropertyObfuscator
+						</a>
+					</li>
+					<li class="active">
+						<a href="Robtimus.Obfuscation.SplitPoint.html">
+							SplitPoint
+						</a>
+					</li>
+			</ul>
+		</div>
+
+		<div class="menu-section">
+			<h3>Interfaces</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.HeaderObfuscatorBuilder.html">
+							HeaderObfuscatorBuilder
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.ObfuscatorPrefix.html">
+							ObfuscatorPrefix
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyConfigurer.html">
+							PropertyConfigurer
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscatorBuilder.html">
+							PropertyObfuscatorBuilder
+						</a>
+					</li>
+			</ul>
+		</div>
+
+
+		<div class="menu-section">
+			<h3>Enums</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscationMode.html">
+							PropertyObfuscationMode
+						</a>
+					</li>
+			</ul>
+		</div>
+
+
+	</div>
+	</div>
+
+	<div class="layout-main">
+		<div class="layout-navbar">
+	<nav class="navbar">
+		<div class="navbar-left">
+			<ul class="navbar-links">
+				<li>
+					<a href="index.html">Overview</a>
+				</li>
+				<li>
+					
+						<a href="namespace-Robtimus.Obfuscation.html">Namespace</a>
+					
+				</li>
+<li class="active"><a href="Robtimus.Obfuscation.SplitPoint.html">Class</a></li>				<li>
+					<a href="tree.html">Tree</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navbar-right">
+	<div class="search" data-elements="assets/elements.js">
+		<input class="search-input" placeholder="Search class, function or namespace" autofocus>
+		<ul class="search-results"></ul>
+	</div>
+		</div>
+	</nav>
+		</div>
+
+		<div class="layout-content">
+		<h1>
+			Class <a href="namespace-Robtimus.html">Robtimus</a>\<a href="namespace-Robtimus.Obfuscation.html">Obfuscation</a>\<a href="Robtimus.Obfuscation.SplitPoint.html">SplitPoint</a>
+		</h1>
+
+
+	<table class="classLikeSignatureTable">
+			<tr><th><code>abstract</code></th></tr>
+
+
+
+	</table>
+		<div class="classLikeDescription">
+	<div class="description"><p>A point in a text to split obfuscation.
+Like <code>Obfuscator::untilLength</code>, this can be used to combine obfuscators. For instance, to obfuscate email addresses:</p>
+<pre><code class="language-php">$localPartObfuscator = Obfuscate::portion()
+        -&gt;keepAtStart(1)
+        -&gt;keepAtEnd(1)
+        -&gt;withFixedTotalLength(8)
+        -&gt;build();
+$domainObfuscator = Obfuscate::none();
+$obfuscator = SplitPoint::atFirst('@')-&gt;splitTo($localPartObfuscator, $domainObfuscator);
+// Everything before @ will be obfuscated using $localPartObfuscator, everything after @ will not be obfuscated
+// Example input: test@example.org
+// Example output: t******t@example.org
+</code></pre>
+<p>Unlike <code>Obfuscator::untilLength</code> it's not possible to chain splitting, but it's of course possible to nest it:</p>
+<pre><code class="language-php">$localPartObfuscator = Obfuscate::portion()
+        -&gt;keepAtStart(1)
+        -&gt;keepAtEnd(1)
+        -&gt;withFixedTotalLength(8)
+        -&gt;build();
+$domainObfuscator = SplitPoint::atLast('.')-&gt;splitTo(Obfuscate::all(), Obfuscate::none());
+$obfuscator = SplitPoint::atFirst('@')-&gt;splitTo($localPartObfuscator, $domainObfuscator);
+// Everything before @ will be obfuscated using $localPartObfuscator, everything after @ will be obfuscated until the last dot
+// Example input: test@example.org
+// Example output: t******t@*******.org
+</code></pre>
+<h2>Sub classing</h2>
+<p>To create a sub class, implement both <code>splitStart</code> and <code>splitLength</code>.
+Obfuscators created by calling <code>splitTo</code> use these two methods to determine how to split the text to obfuscate.
+If <code>splitStart</code> returns -1, only the first obfuscator will be used. Otherwise, where <code>splitStart</code> is the result of calling <code>splitStart($text)</code>:</p>
+<ul>
+<li>The range from 0 to <code>splitStart</code> will be obfuscated using the first obfuscator.</li>
+<li>The range from <code>splitStart</code> to <code>splitStart + splitLength()</code> will not be obfuscated.</li>
+<li>The range from <code>splitStart + splitLength()</code> to <code>mb_strlen($text)</code> will be obfuscated using the second obfuscator.</li>
+</ul>
+</div>
+		</div>
+
+
+		<div class="classLikeSection">
+			<b>Located at</b> <a href="source-Robtimus.Obfuscation.SplitPoint.html#50" title="Go to source code">Robtimus/Obfuscation/SplitPoint.php</a><br>
+		</div>
+
+
+
+		<table class="table" id="methods">
+			<tr>
+				<th class="table-heading sortable" colspan="3" title="Switch between natural and alphabetical order">Methods</th>
+			</tr>
+
+	<tr class="expandable collapsed" data-order="splitStart" id="_splitStart">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					abstract
+	protected
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.SplitPoint.html#52-59" title="Go to source code">splitStart</a>(<span>string <var>$text</var></span>): int</code>
+
+
+	<div class="expandable-collapsedView">
+		For a given text, finds the index where to start to split.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>For a given text, finds the index where to start to split.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$text</var>&nbsp;&nbsp;</td>
+										<td><p>The text to find the split start index for.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>The index in the given text where to start to split, or -1 to not split.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_splitStart">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="splitLength" id="_splitLength">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					abstract
+	protected
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.SplitPoint.html#61-68" title="Go to source code">splitLength</a>(): int</code>
+
+
+	<div class="expandable-collapsedView">
+		Returns the length of text ranges to not obfuscate when splitting.
+All characters with an index between `splitStart`…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Returns the length of text ranges to not obfuscate when splitting.
+All characters with an index between <code>splitStart</code> and <code>splitStart + splitLength()</code>,
+where <code>splitStart</code> is the result of calling <code>splitStart($text)</code>, will not be obfuscated.</p>
+</div>
+
+
+							<h4>Returns</h4>
+							<div><p>The length of text ranges to not obfuscate when splitting.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_splitLength">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="splitTo" id="_splitTo">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					final
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.SplitPoint.html#70-132" title="Go to source code">splitTo</a>(<span><a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a> <var>$beforeSplitPoint</var></span>, <span><a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a> <var>$afterSplitPoint</var></span>): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Creates an obfuscator that splits obfuscation at this split point.
+The part of the text before the split point will be…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Creates an obfuscator that splits obfuscation at this split point.
+The part of the text before the split point will be obfuscated by one obfuscator, the part after the split point by another.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$beforeSplitPoint</var>&nbsp;&nbsp;</td>
+										<td><p>The obfuscator to use before the split point.</p>
+</td>
+									</tr>
+									<tr>
+										<td><var>$afterSplitPoint</var>&nbsp;&nbsp;</td>
+										<td><p>The obfuscator to use after the split point.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>The created obfuscator.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_splitTo">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="atFirst" id="_atFirst">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.SplitPoint.html#134-172" title="Go to source code">atFirst</a>(<span>string <var>$s</var></span>): <b><span class="active" title="Robtimus\Obfuscation\SplitPoint">SplitPoint</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Creates a new split point that splits at the first occurrence of a string.
+This split point is exclusive; the text…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Creates a new split point that splits at the first occurrence of a string.
+This split point is exclusive; the text itself will not be obfuscated.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$s</var>&nbsp;&nbsp;</td>
+										<td><p>The string to split at.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>The created split point.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the string to split at is empty.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_atFirst">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="atLast" id="_atLast">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.SplitPoint.html#174-212" title="Go to source code">atLast</a>(<span>string <var>$s</var></span>): <b><span class="active" title="Robtimus\Obfuscation\SplitPoint">SplitPoint</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Creates a new split point that splits at the last occurrence of a string.
+This split point is exclusive; the text…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Creates a new split point that splits at the last occurrence of a string.
+This split point is exclusive; the text itself will not be obfuscated.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$s</var>&nbsp;&nbsp;</td>
+										<td><p>The string to split at.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>The created split point.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the string to split at is empty.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_atLast">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="atNth" id="_atNth">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					static
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.SplitPoint.html#214-262" title="Go to source code">atNth</a>(<span>string <var>$s</var></span>, <span>int <var>$occurrence</var></span>): <b><span class="active" title="Robtimus\Obfuscation\SplitPoint">SplitPoint</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Creates a new split point that splits at a specific occurrence of a string.
+This split point is exclusive; the text…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Creates a new split point that splits at a specific occurrence of a string.
+This split point is exclusive; the text itself will not be obfuscated.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$s</var>&nbsp;&nbsp;</td>
+										<td><p>The string to split at.</p>
+</td>
+									</tr>
+									<tr>
+										<td><var>$occurrence</var>&nbsp;&nbsp;</td>
+										<td><p>The zero-based occurrence of the string to split at.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>The created split point.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the string to split at is empty, or the occurrence is negative.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_atNth">#</a>
+		</td>
+	</tr>
+		</table>
+
+
+
+
+
+
+
+
+		</div>
+
+		<div class="layout-footer">
+			robtimus/obfuscation API documentation generated by <a href="https://www.apigen.org">ApiGen v7.0.0-alpha.4</a>
+		</div>
+	</div>
+
+	<div class="layout-rest">
+		<div class="navbar"></div>
+	</div>
+</body>
+</html>

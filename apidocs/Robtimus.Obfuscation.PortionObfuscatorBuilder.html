@@ -1,0 +1,588 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Class Robtimus\Obfuscation\PortionObfuscatorBuilder | robtimus/obfuscation API</title>
+	<link rel="stylesheet" href="assets/main.css">
+	<script src="assets/main.js" defer></script>
+</head>
+
+<body class="layout">
+	<div class="layout-aside">
+	<div class="menu">
+			<div class="menu-section">
+				<h3>Namespaces</h3>
+	<ul>
+			<li class="menuGroup-item active">
+				<a href="namespace-Robtimus.html">Robtimus</a>
+	<ul>
+			<li class="menuGroup-item active">
+				<a href="namespace-Robtimus.Obfuscation.html">Obfuscation</a>
+			</li>
+	</ul>
+			</li>
+	</ul>
+			</div>
+
+		<div class="menu-section">
+			<h3>Classes</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.HeaderObfuscator.html">
+							HeaderObfuscator
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.Obfuscate.html">
+							Obfuscate
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.Obfuscator.html">
+							Obfuscator
+						</a>
+					</li>
+					<li class="active">
+						<a href="Robtimus.Obfuscation.PortionObfuscatorBuilder.html">
+							PortionObfuscatorBuilder
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscator.html">
+							PropertyObfuscator
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.SplitPoint.html">
+							SplitPoint
+						</a>
+					</li>
+			</ul>
+		</div>
+
+		<div class="menu-section">
+			<h3>Interfaces</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.HeaderObfuscatorBuilder.html">
+							HeaderObfuscatorBuilder
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.ObfuscatorPrefix.html">
+							ObfuscatorPrefix
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyConfigurer.html">
+							PropertyConfigurer
+						</a>
+					</li>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscatorBuilder.html">
+							PropertyObfuscatorBuilder
+						</a>
+					</li>
+			</ul>
+		</div>
+
+
+		<div class="menu-section">
+			<h3>Enums</h3>
+			<ul>
+					<li>
+						<a href="Robtimus.Obfuscation.PropertyObfuscationMode.html">
+							PropertyObfuscationMode
+						</a>
+					</li>
+			</ul>
+		</div>
+
+
+	</div>
+	</div>
+
+	<div class="layout-main">
+		<div class="layout-navbar">
+	<nav class="navbar">
+		<div class="navbar-left">
+			<ul class="navbar-links">
+				<li>
+					<a href="index.html">Overview</a>
+				</li>
+				<li>
+					
+						<a href="namespace-Robtimus.Obfuscation.html">Namespace</a>
+					
+				</li>
+<li class="active"><a href="Robtimus.Obfuscation.PortionObfuscatorBuilder.html">Class</a></li>				<li>
+					<a href="tree.html">Tree</a>
+				</li>
+			</ul>
+		</div>
+		<div class="navbar-right">
+	<div class="search" data-elements="assets/elements.js">
+		<input class="search-input" placeholder="Search class, function or namespace" autofocus>
+		<ul class="search-results"></ul>
+	</div>
+		</div>
+	</nav>
+		</div>
+
+		<div class="layout-content">
+		<h1>
+			Class <a href="namespace-Robtimus.html">Robtimus</a>\<a href="namespace-Robtimus.Obfuscation.html">Obfuscation</a>\<a href="Robtimus.Obfuscation.PortionObfuscatorBuilder.html">PortionObfuscatorBuilder</a>
+		</h1>
+
+
+	<table class="classLikeSignatureTable">
+
+			<tr><th><code>final</code></th></tr>
+
+
+	</table>
+		<div class="classLikeDescription">
+	<div class="description"><p>A builder for obfuscators that obfuscate a specific portion of their input.
+An obfuscator created with <code>keepAtStart(x)</code> and <code>keepAtEnd(y)</code> will, for input <code>s</code>,
+obfuscate all characters in the range <code>x</code> (inclusive) to <code>mb_strlen(s) - y</code> (exclusive).
+If this range is empty, such an obfuscator will not obfuscate anything, unless if <code>withFixedTotalLength</code> is specified.</p>
+</div>
+		</div>
+
+
+		<div class="classLikeSection">
+			<b>Located at</b> <a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#17" title="Go to source code">Robtimus/Obfuscation/PortionObfuscatorBuilder.php</a><br>
+		</div>
+
+
+
+		<table class="table" id="methods">
+			<tr>
+				<th class="table-heading sortable" colspan="3" title="Switch between natural and alphabetical order">Methods</th>
+			</tr>
+
+	<tr class="expandable collapsed" data-order="keepAtStart" id="_keepAtStart">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#26-41" title="Go to source code">keepAtStart</a>(<span>int <var>$count</var></span>): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Sets the number of characters at the start that created obfuscators will skip when obfuscating.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Sets the number of characters at the start that created obfuscators will skip when obfuscating.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$count</var>&nbsp;&nbsp;</td>
+										<td><p>The number of characters to skip. The default is 0.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the count is negative.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_keepAtStart">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="keepAtEnd" id="_keepAtEnd">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#43-58" title="Go to source code">keepAtEnd</a>(<span>int <var>$count</var></span>): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Sets the number of characters at the end that created obfuscators will skip when obfuscating.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Sets the number of characters at the end that created obfuscators will skip when obfuscating.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$count</var>&nbsp;&nbsp;</td>
+										<td><p>The number of characters to skip. The default is 0.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the count is negative.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_keepAtEnd">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="atLeastFromStart" id="_atLeastFromStart">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#60-76" title="Go to source code">atLeastFromStart</a>(<span>int <var>$count</var></span>): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Sets the minimum number of characters from the start that need to be obfuscated.
+This will overrule any value set with …
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Sets the minimum number of characters from the start that need to be obfuscated.
+This will overrule any value set with <code>keepAtStart</code> or <code>keepAtEnd</code>.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$count</var>&nbsp;&nbsp;</td>
+										<td><p>The minimum number of characters to obfuscate. The default is 0.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the count is negative.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_atLeastFromStart">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="atLeastFromEnd" id="_atLeastFromEnd">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#78-94" title="Go to source code">atLeastFromEnd</a>(<span>int <var>$count</var></span>): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Sets the minimum number of characters from the end that need to be obfuscated.
+This will overrule any value set with …
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Sets the minimum number of characters from the end that need to be obfuscated.
+This will overrule any value set with <code>keepAtStart</code> or <code>keepAtEnd</code>.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$count</var>&nbsp;&nbsp;</td>
+										<td><p>The minimum number of characters to obfuscate. The default is 0.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the count is negative.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_atLeastFromEnd">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="withFixedTotalLength" id="_withFixedTotalLength">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#96-113" title="Go to source code">withFixedTotalLength</a>(<span>int <var>$fixedTotalLength</var></span>): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Sets or removes the fixed total length to use for obfuscated contents.
+When obfuscating, the result will have the mask…
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Sets or removes the fixed total length to use for obfuscated contents.
+When obfuscating, the result will have the mask added until this total length has been reached.</p>
+<p>Note: when used in combination with <code>keepAtStart</code> and/or <code>keepAtEnd</code>, this total length must be at least the sum
+of both other values. When used in combination with both, parts of the input may be repeated in the obfuscated content if the input's
+length is less than the combined number of characters to keep.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$fixedTotalLength</var>&nbsp;&nbsp;</td>
+										<td><p>The fixed total length for obfuscated contents, or a negative value to use the actual length of the input.
+The default is -1.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_withFixedTotalLength">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="withMask" id="_withMask">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#115-130" title="Go to source code">withMask</a>(<span>string <var>$mask</var></span>): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Sets the string that created obfuscators use for obfuscating.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Sets the string that created obfuscators use for obfuscating.</p>
+</div>
+
+							<h4>Parameters</h4>
+							<table>
+									<tr>
+										<td><var>$mask</var>&nbsp;&nbsp;</td>
+										<td><p>The mask string. The default is <code>*</code>.</p>
+</td>
+									</tr>
+							</table>
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="ValueError.html"><span>ValueError</span></a></code>&nbsp;</td>
+										<td><p>If the mask string is not exactly 1 character long.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_withMask">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="withDefaults" id="_withDefaults">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#132-153" title="Go to source code">withDefaults</a>(): <b><span class="active" title="Robtimus\Obfuscation\PortionObfuscatorBuilder">PortionObfuscatorBuilder</span></b></code>
+
+
+	<div class="expandable-collapsedView">
+		Specifies that the default settings should be restored.
+Calling this method is similar to calling the following:
+* …
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Specifies that the default settings should be restored.
+Calling this method is similar to calling the following:</p>
+<ul>
+<li>
+<code>keepAtStart(0)</code>
+</li>
+<li>
+<code>keepAtEnd(0)</code>
+</li>
+<li>
+<code>atLeastFromStart(0)</code>
+</li>
+<li>
+<code>atLeastFromEnd(0)</code>
+</li>
+<li>
+<code>withFixedTotalLength(-1)</code>
+</li>
+<li>
+<code>withMask('*')</code>
+</li>
+</ul>
+</div>
+
+
+							<h4>Returns</h4>
+							<div><p>This builder.</p>
+</div>
+
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_withDefaults">#</a>
+		</td>
+	</tr>
+	<tr class="expandable collapsed" data-order="build" id="_build">
+			<td class="table-cell table-shrink">
+				<code class="nowrap">
+					
+	public
+					
+					
+				</code>
+			</td>
+
+			<td class="table-cell">
+				<code><a href="source-Robtimus.Obfuscation.PortionObfuscatorBuilder.html#155-255" title="Go to source code">build</a>(): <a href="Robtimus.Obfuscation.Obfuscator.html"><span title="Robtimus\Obfuscation\Obfuscator">Obfuscator</span></a></code>
+
+
+	<div class="expandable-collapsedView">
+		Creates an immutable obfuscator with the current settings of this builder.
+	</div>
+
+	<div class="expandable-expandedView">
+	<div class="description"><p>Creates an immutable obfuscator with the current settings of this builder.</p>
+</div>
+
+
+							<h4>Returns</h4>
+							<div><p>An obfuscator with the current settings of this builder object.</p>
+</div>
+
+							<h4>Throws</h4>
+							<table>
+									<tr>
+										<td><code><a href="LogicException.html"><span>LogicException</span></a></code>&nbsp;</td>
+										<td><p>If this builder is in an invalid state, for example if <code>withFixedTotalLength</code> is smaller than
+<code>keepAtStart</code> and <code>keepAtEnd</code> combined.</p>
+</td>
+									</tr>
+							</table>
+
+	</div>
+			</td>
+		<td class="table-anchor">
+			<a href="#_build">#</a>
+		</td>
+	</tr>
+		</table>
+
+
+
+
+
+
+
+
+		</div>
+
+		<div class="layout-footer">
+			robtimus/obfuscation API documentation generated by <a href="https://www.apigen.org">ApiGen v7.0.0-alpha.4</a>
+		</div>
+	</div>
+
+	<div class="layout-rest">
+		<div class="navbar"></div>
+	</div>
+</body>
+</html>
