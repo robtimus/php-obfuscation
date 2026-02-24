@@ -17,7 +17,7 @@ interface PropertyConfigurer extends PropertyObfuscatorBuilder
      *
      * @return PropertyConfigurer This object.
      */
-    function forObjects(PropertyObfuscationMode $obfuscationMode): PropertyConfigurer;
+    public function forObjects(PropertyObfuscationMode $obfuscationMode): PropertyConfigurer;
 
     /**
      * Indicates how to handle properties if their values are arrays. The default is `INHERIT`.
@@ -26,5 +26,5 @@ interface PropertyConfigurer extends PropertyObfuscatorBuilder
      *
      * @return PropertyConfigurer This object.
      */
-    function forArrays(PropertyObfuscationMode $obfuscationMode): PropertyConfigurer;
+    public function forArrays(PropertyObfuscationMode $obfuscationMode): PropertyConfigurer;
 }

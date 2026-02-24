@@ -147,16 +147,16 @@ class SplitPointTest extends TestCase
     {
         $splitPoint = new class extends SplitPoint
         {
-            private SplitPoint $_delegate;
+            private SplitPoint $delegate;
 
             public function __construct()
             {
-                $this->_delegate = SplitPoint::atFirst('@');
+                $this->delegate = SplitPoint::atFirst('@');
             }
 
             protected function splitStart(string $text): int
             {
-                return $this->_delegate->splitStart($text);
+                return $this->delegate->splitStart($text);
             }
 
             protected function splitLength(): int

@@ -67,31 +67,31 @@ abstract class HeaderObfuscator
              *
              * @var array<string, Obfuscator>
              */
-            private array $_headers = [];
+            private array $headers = [];
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function withHeader(string $headerName, Obfuscator $obfuscator): HeaderObfuscatorBuilder
             {
                 $lowerCaseHeaderName = mb_strtolower($headerName);
-                if (isset($this->_headers[$lowerCaseHeaderName])) {
+                if (isset($this->headers[$lowerCaseHeaderName])) {
                     throw new ValueError("Duplicate header name: $headerName");
                 }
 
-                $this->_headers[$lowerCaseHeaderName] = $obfuscator;
+                $this->headers[$lowerCaseHeaderName] = $obfuscator;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function build(): HeaderObfuscator
             {
-                return new class($this->_headers) extends HeaderObfuscator
+                return new class($this->headers) extends HeaderObfuscator
                 {
                     /**
                      * Case insensitively matched headers
                      *
                      * @var array<string, Obfuscator>
                      */
-                    private array $_headers;
+                    private array $headers;
 
                     /**
                      * Creates a new `HeaderObfuscator`.
@@ -100,15 +100,15 @@ abstract class HeaderObfuscator
                      */
                     public function __construct(array $headers)
                     {
-                        $this->_headers = $headers;
+                        $this->headers = $headers;
                     }
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateHeaderValue(string $headerName, string $value): string
                     {
                         $lowerCaseHeaderName = mb_strtolower($headerName);
-                        return isset($this->_headers[$lowerCaseHeaderName])
-                            ? $this->_headers[$lowerCaseHeaderName]->obfuscateText($value)
+                        return isset($this->headers[$lowerCaseHeaderName])
+                            ? $this->headers[$lowerCaseHeaderName]->obfuscateText($value)
                             : $value;
                     }
 
@@ -116,8 +116,8 @@ abstract class HeaderObfuscator
                     public function obfuscateHeaderValues(string $headerName, array $values): array
                     {
                         $lowerCaseHeaderName = mb_strtolower($headerName);
-                        if (isset($this->_headers[$lowerCaseHeaderName])) {
-                            $obfuscator = $this->_headers[$lowerCaseHeaderName];
+                        if (isset($this->headers[$lowerCaseHeaderName])) {
+                            $obfuscator = $this->headers[$lowerCaseHeaderName];
                             $obfuscated = [];
                             foreach ($values as $value) {
                                 $obfuscated[] = $obfuscator->obfuscateText($value);

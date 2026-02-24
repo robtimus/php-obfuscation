@@ -29,18 +29,18 @@ final class Obfuscate
     {
         return new class($mask) extends Obfuscator
         {
-            private string $_mask;
+            private string $mask;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(string $mask)
             {
-                $this->_mask = $mask;
+                $this->mask = $mask;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
-                return str_repeat($this->_mask, mb_strlen($text));
+                return str_repeat($this->mask, mb_strlen($text));
             }
         };
     }
@@ -96,18 +96,18 @@ final class Obfuscate
     {
         return new class($fixedValue) extends Obfuscator
         {
-            private string $_fixedValue;
+            private string $fixedValue;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(string $fixedValue)
             {
-                $this->_fixedValue = $fixedValue;
+                $this->fixedValue = $fixedValue;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
-                return $this->_fixedValue;
+                return $this->fixedValue;
             }
         };
     }
@@ -140,9 +140,9 @@ final class Obfuscate
              *
              * @var non-empty-string
              */
-            private string $_separator;
-            private Obfuscator $_obfuscator;
-            private int $_limit;
+            private string $separator;
+            private Obfuscator $obfuscator;
+            private int $limit;
 
             // phpcs:disable PEAR.Commenting.FunctionComment.Missing, PEAR.Commenting.FunctionComment.MissingParamComment
             /**
@@ -154,20 +154,20 @@ final class Obfuscate
              */
             public function __construct(string $separator, Obfuscator $obfuscator, int $limit)
             {
-                $this->_separator = $separator;
-                $this->_obfuscator = $obfuscator;
-                $this->_limit = $limit;
+                $this->separator = $separator;
+                $this->obfuscator = $obfuscator;
+                $this->limit = $limit;
             }
             // phpcs:enable
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
-                $array = explode($this->_separator, $text, $this->_limit);
+                $array = explode($this->separator, $text, $this->limit);
                 foreach ($array as &$value) {
-                    $value = $this->_obfuscator->obfuscateText($value);
+                    $value = $this->obfuscator->obfuscateText($value);
                 }
-                return implode($this->_separator, $array);
+                return implode($this->separator, $array);
             }
         };
     }

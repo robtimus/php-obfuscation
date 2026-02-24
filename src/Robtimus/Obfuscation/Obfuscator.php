@@ -12,7 +12,7 @@ use ValueError;
  */
 abstract class Obfuscator
 {
-    private int $_minPrefixLength = 1;
+    private int $minPrefixLength = 1;
 
     /**
      * Creates a new obfuscator.
@@ -24,7 +24,7 @@ abstract class Obfuscator
         if ($minPrefixLength < 1) {
             throw new ValueError("$minPrefixLength < 1");
         }
-        $this->_minPrefixLength = $minPrefixLength;
+        $this->minPrefixLength = $minPrefixLength;
     }
 
     /**
@@ -59,49 +59,49 @@ abstract class Obfuscator
      */
     final public function untilLength(int $prefixLength): ObfuscatorPrefix
     {
-        if ($prefixLength < $this->_minPrefixLength) {
-            throw new ValueError("$prefixLength < {$this->_minPrefixLength}");
+        if ($prefixLength < $this->minPrefixLength) {
+            throw new ValueError("$prefixLength < {$this->minPrefixLength}");
         }
         return new class($this, $prefixLength) implements ObfuscatorPrefix
         {
-            private Obfuscator $_obfuscator;
-            private int $_prefixLength;
+            private Obfuscator $obfuscator;
+            private int $prefixLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(Obfuscator $obfuscator, int $prefixLength)
             {
-                $this->_obfuscator = $obfuscator;
-                $this->_prefixLength = $prefixLength;
+                $this->obfuscator = $obfuscator;
+                $this->prefixLength = $prefixLength;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function then(Obfuscator $other): Obfuscator
             {
-                return new class($this->_obfuscator, $this->_prefixLength, $other) extends Obfuscator
+                return new class($this->obfuscator, $this->prefixLength, $other) extends Obfuscator
                 {
-                    private Obfuscator $_first;
-                    private int $_lengthForFirst;
-                    private Obfuscator $_second;
+                    private Obfuscator $first;
+                    private int $lengthForFirst;
+                    private Obfuscator $second;
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function __construct(Obfuscator $first, int $lengthForFirst, Obfuscator $second)
                     {
                         parent::__construct($lengthForFirst + 1);
-                        $this->_first = $first;
-                        $this->_lengthForFirst = $lengthForFirst;
-                        $this->_second = $second;
+                        $this->first = $first;
+                        $this->lengthForFirst = $lengthForFirst;
+                        $this->second = $second;
                     }
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateText(string $text): string
                     {
                         $end = mb_strlen($text);
-                        $splitAt = min($this->_lengthForFirst, $end);
+                        $splitAt = min($this->lengthForFirst, $end);
                         if ($splitAt === $end) {
-                            return $this->_first->obfuscateText($text);
+                            return $this->first->obfuscateText($text);
                         }
-                        return $this->_first->obfuscateText(mb_substr($text, 0, $splitAt))
-                            . $this->_second->obfuscateText(mb_substr($text, $splitAt));
+                        return $this->first->obfuscateText(mb_substr($text, 0, $splitAt))
+                            . $this->second->obfuscateText(mb_substr($text, $splitAt));
                     }
                 };
             }

@@ -16,12 +16,12 @@ use ValueError;
  */
 final class PortionObfuscatorBuilder
 {
-    private int $_keepAtStart = 0;
-    private int $_keepAtEnd = 0;
-    private int $_atLeastFromStart = 0;
-    private int $_atLeastFromEnd = 0;
-    private int $_fixedTotalLength = -1;
-    private string $_mask = '*';
+    private int $keepAtStart = 0;
+    private int $keepAtEnd = 0;
+    private int $atLeastFromStart = 0;
+    private int $atLeastFromEnd = 0;
+    private int $fixedTotalLength = -1;
+    private string $mask = '*';
 
     /**
      * Sets the number of characters at the start that created obfuscators will skip when obfuscating.
@@ -36,7 +36,7 @@ final class PortionObfuscatorBuilder
         if ($count < 0) {
             throw new ValueError("$count < 0");
         }
-        $this->_keepAtStart = $count;
+        $this->keepAtStart = $count;
         return $this;
     }
 
@@ -53,7 +53,7 @@ final class PortionObfuscatorBuilder
         if ($count < 0) {
             throw new ValueError("$count < 0");
         }
-        $this->_keepAtEnd = $count;
+        $this->keepAtEnd = $count;
         return $this;
     }
 
@@ -71,7 +71,7 @@ final class PortionObfuscatorBuilder
         if ($count < 0) {
             throw new ValueError("$count < 0");
         }
-        $this->_atLeastFromStart = $count;
+        $this->atLeastFromStart = $count;
         return $this;
     }
 
@@ -89,7 +89,7 @@ final class PortionObfuscatorBuilder
         if ($count < 0) {
             throw new ValueError("$count < 0");
         }
-        $this->_atLeastFromEnd = $count;
+        $this->atLeastFromEnd = $count;
         return $this;
     }
 
@@ -108,7 +108,7 @@ final class PortionObfuscatorBuilder
      */
     public function withFixedTotalLength(int $fixedTotalLength): PortionObfuscatorBuilder
     {
-        $this->_fixedTotalLength = max(-1, $fixedTotalLength);
+        $this->fixedTotalLength = max(-1, $fixedTotalLength);
         return $this;
     }
 
@@ -125,7 +125,7 @@ final class PortionObfuscatorBuilder
         if (mb_strlen($mask) != 1) {
             throw new ValueError("'$mask' is not exactly 1 character long");
         }
-        $this->_mask = $mask;
+        $this->mask = $mask;
         return $this;
     }
 
@@ -161,27 +161,27 @@ final class PortionObfuscatorBuilder
      */
     public function build(): Obfuscator
     {
-        if ($this->_fixedTotalLength >= 0 && $this->_fixedTotalLength < $this->_keepAtStart + $this->_keepAtEnd) {
+        if ($this->fixedTotalLength >= 0 && $this->fixedTotalLength < $this->keepAtStart + $this->keepAtEnd) {
             throw new LogicException(
-                "fixedTotalLength ($this->_fixedTotalLength) is smaller than keepAtStart ($this->_keepAtStart) + keepAtEnd ($this->_keepAtEnd)"
+                "fixedTotalLength ($this->fixedTotalLength) is smaller than keepAtStart ($this->keepAtStart) + keepAtEnd ($this->keepAtEnd)"
             );
         }
 
         return new class(
-            $this->_keepAtStart,
-            $this->_keepAtEnd,
-            $this->_atLeastFromStart,
-            $this->_atLeastFromEnd,
-            $this->_fixedTotalLength,
-            $this->_mask
+            $this->keepAtStart,
+            $this->keepAtEnd,
+            $this->atLeastFromStart,
+            $this->atLeastFromEnd,
+            $this->fixedTotalLength,
+            $this->mask
         ) extends Obfuscator
         {
-            private int $_keepAtStart;
-            private int $_keepAtEnd;
-            private int $_atLeastFromStart;
-            private int $_atLeastFromEnd;
-            private int $_fixedTotalLength;
-            private string $_mask;
+            private int $keepAtStart;
+            private int $keepAtEnd;
+            private int $atLeastFromStart;
+            private int $atLeastFromEnd;
+            private int $fixedTotalLength;
+            private string $mask;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(
@@ -192,61 +192,61 @@ final class PortionObfuscatorBuilder
                 int    $fixedTotalLength,
                 string $mask
             ) {
-                $this->_keepAtStart = $keepAtStart;
-                $this->_keepAtEnd = $keepAtEnd;
-                $this->_atLeastFromStart = $atLeastFromStart;
-                $this->_atLeastFromEnd = $atLeastFromEnd;
-                $this->_fixedTotalLength = $fixedTotalLength;
-                $this->_mask = $mask;
+                $this->keepAtStart = $keepAtStart;
+                $this->keepAtEnd = $keepAtEnd;
+                $this->atLeastFromStart = $atLeastFromStart;
+                $this->atLeastFromEnd = $atLeastFromEnd;
+                $this->fixedTotalLength = $fixedTotalLength;
+                $this->mask = $mask;
             }
 
-            private function _fromStart(int $length): int
+            private function fromStart(int $length): int
             {
-                if ($this->_atLeastFromStart > 0) {
+                if ($this->atLeastFromStart > 0) {
                     // the first characters need to be obfuscated so ignore keepAtStart
                     return 0;
                 }
                 // 0 <= keepAtMost <= length, the maximum number of characters to not obfuscate taking into account atLeastFromEnd
                 // 0 <= result <= length, the minimum of what we want to obfuscate and what we can obfuscate
-                $keepAtMost = max(0, $length - $this->_atLeastFromEnd);
-                return min($this->_keepAtStart, $keepAtMost);
+                $keepAtMost = max(0, $length - $this->atLeastFromEnd);
+                return min($this->keepAtStart, $keepAtMost);
             }
 
-            private function _fromEnd(int $length, int $keepFromStart, bool $allowDuplicates): int
+            private function fromEnd(int $length, int $keepFromStart, bool $allowDuplicates): int
             {
-                if ($this->_atLeastFromEnd > 0) {
+                if ($this->atLeastFromEnd > 0) {
                     // the last characters need to be obfuscated so ignore keepAtEnd
                     return 0;
                 }
                 // 0 <= $available <= length, the number of characters not already handled by fromStart (to prevent characters being appended twice)
                 //                            if $allowDuplicates then $available == $length
-                // 0 <= $keepAtMost <= $length, the maximum number of characters to not obfuscate taking into account $this->_atLeastFromStart
+                // 0 <= $keepAtMost <= $length, the maximum number of characters to not obfuscate taking into account $this->atLeastFromStart
                 // 0 <= result <= $length, the minimum of what we want to obfuscate and what we can obfuscate
                 $available = $allowDuplicates ? $length : $length - $keepFromStart;
-                $keepAtMost = max(0, $length - $this->_atLeastFromStart);
-                return min($this->_keepAtEnd, min($available, $keepAtMost));
+                $keepAtMost = max(0, $length - $this->atLeastFromStart);
+                return min($this->keepAtEnd, min($available, $keepAtMost));
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
-                $allowDuplicates = $this->_fixedTotalLength >= 0;
+                $allowDuplicates = $this->fixedTotalLength >= 0;
 
                 $length = mb_strlen($text);
                 $end = $length;
-                $fromStart = $this->_fromStart($length);
-                $fromEnd = $this->_fromEnd($length, $fromStart, $allowDuplicates);
+                $fromStart = $this->fromStart($length);
+                $fromEnd = $this->fromEnd($length, $fromStart, $allowDuplicates);
                 // 0 <= $fromStart <= $length
                 // 0 <= $fromEnd <= $length
 
-                if ($this->_fixedTotalLength >= 0) {
-                    $length = $this->_fixedTotalLength;
+                if ($this->fixedTotalLength >= 0) {
+                    $length = $this->fixedTotalLength;
                 }
 
                 // first build the content as expected: 0 to $fromStart non-obfuscated, then obfuscated, then from end - fromEnd non-obfuscated
                 $result = mb_substr($text, 0, $fromStart);
                 for ($i = $fromStart; $i < $length - $fromEnd; $i++) {
-                    $result .= $this->_mask;
+                    $result .= $this->mask;
                 }
                 $result .= mb_substr($text, $end - $fromEnd);
                 return $result;

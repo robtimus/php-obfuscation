@@ -21,12 +21,12 @@ interface HeaderObfuscatorBuilder
      * @return HeaderObfuscatorBuilder This object.
      * @throws ValueError If a header with the same name was already added, irregardless of case.
      */
-    function withHeader(string $headerName, Obfuscator $obfuscator): HeaderObfuscatorBuilder;
+    public function withHeader(string $headerName, Obfuscator $obfuscator): HeaderObfuscatorBuilder;
 
     /**
      * Creates a new `HeaderObfuscator` with the headers and obfuscators added to this builder.
      *
      * @return HeaderObfuscator The created `HeaderObfuscator` instance.
      */
-    function build(): HeaderObfuscator;
+    public function build(): HeaderObfuscator;
 }

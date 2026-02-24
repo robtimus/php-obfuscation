@@ -78,39 +78,39 @@ abstract class PropertyObfuscator
              *
              * @var array<string, array{'obfuscator': Obfuscator, 'forObjects': PropertyObfuscationMode, 'forArrays': PropertyObfuscationMode}>
              */
-            private array $_caseSensitiveProperties = [];
+            private array $caseSensitiveProperties = [];
             /**
              * Case insensitively matched properties.
              *
              * @var array<string, array{'obfuscator': Obfuscator, 'forObjects': PropertyObfuscationMode, 'forArrays': PropertyObfuscationMode}>
              */
-            private array $_caseInsensitiveProperties = [];
+            private array $caseInsensitiveProperties = [];
 
             // default settings
-            private bool $_caseSensitiveByDefault = true;
-            private PropertyObfuscationMode $_forObjectsByDefault = PropertyObfuscationMode::INHERIT;
-            private PropertyObfuscationMode $_forArraysByDefault = PropertyObfuscationMode::INHERIT;
+            private bool $caseSensitiveByDefault = true;
+            private PropertyObfuscationMode $forObjectsByDefault = PropertyObfuscationMode::INHERIT;
+            private PropertyObfuscationMode $forArraysByDefault = PropertyObfuscationMode::INHERIT;
 
             // per property settings
-            private ?string $_propertyName = null;
-            private ?Obfuscator $_obfuscator = null;
-            private ?bool $_caseSensitive = null;
-            private ?PropertyObfuscationMode $_forObjects = null;
-            private ?PropertyObfuscationMode $_forArrays = null;
+            private ?string $propertyName = null;
+            private ?Obfuscator $obfuscator = null;
+            private ?bool $caseSensitive = null;
+            private ?PropertyObfuscationMode $forObjects = null;
+            private ?PropertyObfuscationMode $forArrays = null;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function withProperty(string $propertyName, Obfuscator $obfuscator, ?bool $caseSensitive = null): PropertyConfigurer
             {
-                $this->_addLastProperty();
+                $this->addLastProperty();
 
-                $caseSensitive = is_null($caseSensitive) ? $this->_caseSensitiveByDefault : $caseSensitive;
-                $this->_testProperty($propertyName, $caseSensitive);
+                $caseSensitive = is_null($caseSensitive) ? $this->caseSensitiveByDefault : $caseSensitive;
+                $this->testProperty($propertyName, $caseSensitive);
 
-                $this->_propertyName = $propertyName;
-                $this->_obfuscator = $obfuscator;
-                $this->_caseSensitive = $caseSensitive;
-                $this->_forObjects = $this->_forObjectsByDefault;
-                $this->_forArrays = $this->_forArraysByDefault;
+                $this->propertyName = $propertyName;
+                $this->obfuscator = $obfuscator;
+                $this->caseSensitive = $caseSensitive;
+                $this->forObjects = $this->forObjectsByDefault;
+                $this->forArrays = $this->forArraysByDefault;
 
                 return $this;
             }
@@ -118,73 +118,73 @@ abstract class PropertyObfuscator
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function caseSensitiveByDefault(): PropertyObfuscatorBuilder
             {
-                $this->_caseSensitiveByDefault = true;
+                $this->caseSensitiveByDefault = true;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function caseInsensitiveByDefault(): PropertyObfuscatorBuilder
             {
-                $this->_caseSensitiveByDefault = false;
+                $this->caseSensitiveByDefault = false;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function forObjectsByDefault(PropertyObfuscationMode $obfuscationMode): PropertyObfuscatorBuilder
             {
-                $this->_forObjectsByDefault = $obfuscationMode;
+                $this->forObjectsByDefault = $obfuscationMode;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function forArraysByDefault(PropertyObfuscationMode $obfuscationMode): PropertyObfuscatorBuilder
             {
-                $this->_forArraysByDefault = $obfuscationMode;
+                $this->forArraysByDefault = $obfuscationMode;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function forObjects(PropertyObfuscationMode $obfuscationMode): PropertyConfigurer
             {
-                $this->_forObjects = $obfuscationMode;
+                $this->forObjects = $obfuscationMode;
                 return $this;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function forArrays(PropertyObfuscationMode $obfuscationMode): PropertyConfigurer
             {
-                $this->_forArrays = $obfuscationMode;
+                $this->forArrays = $obfuscationMode;
                 return $this;
             }
 
-            private function _addLastProperty(): void
+            private function addLastProperty(): void
             {
-                if (!is_null($this->_propertyName) && !is_null($this->_obfuscator) && !is_null($this->_forObjects) && !is_null($this->_forArrays)) {
+                if (!is_null($this->propertyName) && !is_null($this->obfuscator) && !is_null($this->forObjects) && !is_null($this->forArrays)) {
                     $propertyConfig = array(
-                        'obfuscator' => $this->_obfuscator,
-                        'forObjects' => $this->_forObjects,
-                        'forArrays'  => $this->_forArrays,
+                        'obfuscator' => $this->obfuscator,
+                        'forObjects' => $this->forObjects,
+                        'forArrays'  => $this->forArrays,
                     );
-                    if ($this->_caseSensitive) {
-                        $this->_caseSensitiveProperties[$this->_propertyName] = $propertyConfig;
+                    if ($this->caseSensitive) {
+                        $this->caseSensitiveProperties[$this->propertyName] = $propertyConfig;
                     } else {
-                        $this->_caseInsensitiveProperties[mb_strtolower($this->_propertyName)] = $propertyConfig;
+                        $this->caseInsensitiveProperties[mb_strtolower($this->propertyName)] = $propertyConfig;
                     }
                 }
 
-                $this->_propertyName = null;
-                $this->_obfuscator = null;
-                $this->_caseSensitive = null;
-                $this->_forObjects = null;
-                $this->_forArrays = null;
+                $this->propertyName = null;
+                $this->obfuscator = null;
+                $this->caseSensitive = null;
+                $this->forObjects = null;
+                $this->forArrays = null;
             }
 
-            private function _testProperty(string $propertyName, bool $caseSensitive): void
+            private function testProperty(string $propertyName, bool $caseSensitive): void
             {
-                if ($caseSensitive && isset($this->_caseSensitiveProperties[$propertyName])) {
+                if ($caseSensitive && isset($this->caseSensitiveProperties[$propertyName])) {
                     throw new ValueError("Duplicate property name: $propertyName (case sensitive)");
                 }
-                if (!$caseSensitive && isset($this->_caseInsensitiveProperties[mb_strtolower($propertyName)])) {
+                if (!$caseSensitive && isset($this->caseInsensitiveProperties[mb_strtolower($propertyName)])) {
                     throw new ValueError("Duplicate property name: $propertyName (case insensitive)");
                 }
             }
@@ -192,9 +192,9 @@ abstract class PropertyObfuscator
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function build(): PropertyObfuscator
             {
-                $this->_addLastProperty();
+                $this->addLastProperty();
 
-                return new class($this->_caseSensitiveProperties, $this->_caseInsensitiveProperties) extends PropertyObfuscator
+                return new class($this->caseSensitiveProperties, $this->caseInsensitiveProperties) extends PropertyObfuscator
                 {
                     /**
                      * Case sensitively matched properties.
@@ -205,7 +205,7 @@ abstract class PropertyObfuscator
                      *     'forArrays': PropertyObfuscationMode
                      * }>
                      */
-                    private array $_caseSensitiveProperties;
+                    private array $caseSensitiveProperties;
                     /**
                      * Case insensitively matched properties.
                      *
@@ -215,7 +215,7 @@ abstract class PropertyObfuscator
                      *     'forArrays': PropertyObfuscationMode
                      * }>
                      */
-                    private array $_caseInsensitiveProperties;
+                    private array $caseInsensitiveProperties;
 
                     // phpcs:disable Generic.Files.LineLength.TooLong, PEAR.Commenting.FunctionComment.MissingParamComment
                     /**
@@ -226,15 +226,15 @@ abstract class PropertyObfuscator
                      */
                     public function __construct(array $caseSensitiveProperties, array $caseInsensitiveProperties)
                     {
-                        $this->_caseSensitiveProperties = $caseSensitiveProperties;
-                        $this->_caseInsensitiveProperties = $caseInsensitiveProperties;
+                        $this->caseSensitiveProperties = $caseSensitiveProperties;
+                        $this->caseInsensitiveProperties = $caseInsensitiveProperties;
                     }
                     // phpcs:enable
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateProperty(string $propertyName, string $value): string
                     {
-                        $propertyConfig = $this->_getPropertyConfig($propertyName);
+                        $propertyConfig = $this->getPropertyConfig($propertyName);
                         if (is_null($propertyConfig)) {
                             return $value;
                         }
@@ -245,24 +245,24 @@ abstract class PropertyObfuscator
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateObjectProperties(object $object): stdClass
                     {
-                        return $this->_obfuscateObject($object, null);
+                        return $this->obfuscateObject($object, null);
                     }
 
                     // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
                     public function obfuscateArrayProperties(array $array): array
                     {
-                        return $this->_obfuscateArray($array, null);
+                        return $this->obfuscateArray($array, null);
                     }
 
-                    private function _obfuscateWithDefault(mixed $value, ?Obfuscator $defaultObfuscator): mixed
+                    private function obfuscateWithDefault(mixed $value, ?Obfuscator $defaultObfuscator): mixed
                     {
                         $result = $value;
                         if (is_scalar($value) || is_null($value)) {
-                            $result = $this->_obfuscateScalar($value, $defaultObfuscator);
+                            $result = $this->obfuscateScalar($value, $defaultObfuscator);
                         } elseif (is_object($value)) {
-                            $result = $this->_obfuscateObject($value, $defaultObfuscator);
+                            $result = $this->obfuscateObject($value, $defaultObfuscator);
                         } elseif (is_array($value)) {
-                            $result = $this->_obfuscateArray($value, $defaultObfuscator);
+                            $result = $this->obfuscateArray($value, $defaultObfuscator);
                         }
                         return $result;
                     }
@@ -274,42 +274,42 @@ abstract class PropertyObfuscator
                      * @param array{'obfuscator': Obfuscator, 'forObjects': PropertyObfuscationMode, 'forArrays': PropertyObfuscationMode}|null $propertyConfig
                      */
                     // phpcs::enable
-                    private function _obfuscateValue(mixed $value, ?array $propertyConfig, ?Obfuscator $defaultObfuscator): mixed
+                    private function obfuscateValue(mixed $value, ?array $propertyConfig, ?Obfuscator $defaultObfuscator): mixed
                     {
                         if (is_null($propertyConfig)) {
-                            return $this->_obfuscateWithDefault($value, $defaultObfuscator);
+                            return $this->obfuscateWithDefault($value, $defaultObfuscator);
                         }
                         $result = $value;
                         $obfuscator = $propertyConfig['obfuscator'];
                         if (is_scalar($value) || is_null($value)) {
-                            $result = $this->_obfuscateScalar($value, $obfuscator);
+                            $result = $this->obfuscateScalar($value, $obfuscator);
                         } elseif (is_object($value)) {
                             $obfuscationMode = $propertyConfig['forObjects'];
                             $result = match ($obfuscationMode) {
                                 PropertyObfuscationMode::SKIP                => $value,
-                                PropertyObfuscationMode::EXCLUDE             => $this->_obfuscateWithDefault($value, $defaultObfuscator),
-                                PropertyObfuscationMode::INHERIT             => $this->_obfuscateScalars($value, $obfuscator),
-                                PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->_obfuscateWithDefault($value, $obfuscator),
+                                PropertyObfuscationMode::EXCLUDE             => $this->obfuscateWithDefault($value, $defaultObfuscator),
+                                PropertyObfuscationMode::INHERIT             => $this->obfuscateScalars($value, $obfuscator),
+                                PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->obfuscateWithDefault($value, $obfuscator),
                             };
                         } elseif (is_array($value)) {
                             $obfuscationMode = $propertyConfig['forArrays'];
                             $result = match ($obfuscationMode) {
                                 PropertyObfuscationMode::SKIP                => $value,
-                                PropertyObfuscationMode::EXCLUDE             => $this->_obfuscateWithDefault($value, $defaultObfuscator),
-                                PropertyObfuscationMode::INHERIT             => $this->_obfuscateScalars($value, $obfuscator),
-                                PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->_obfuscateWithDefault($value, $obfuscator),
+                                PropertyObfuscationMode::EXCLUDE             => $this->obfuscateWithDefault($value, $defaultObfuscator),
+                                PropertyObfuscationMode::INHERIT             => $this->obfuscateScalars($value, $obfuscator),
+                                PropertyObfuscationMode::INHERIT_OVERRIDABLE => $this->obfuscateWithDefault($value, $obfuscator),
                             };
                         }
                         return $result;
                     }
 
-                    private function _obfuscateObject(object $object, ?Obfuscator $defaultObfuscator): stdClass
+                    private function obfuscateObject(object $object, ?Obfuscator $defaultObfuscator): stdClass
                     {
                         $obfuscated = new stdClass();
                         // @phpstan-ignore foreach.nonIterable
                         foreach ($object as $propertyName => $value) {
-                            $propertyConfig = $this->_getPropertyConfig($propertyName);
-                            $obfuscated->$propertyName = $this->_obfuscateValue($value, $propertyConfig, $defaultObfuscator);
+                            $propertyConfig = $this->getPropertyConfig($propertyName);
+                            $obfuscated->$propertyName = $this->obfuscateValue($value, $propertyConfig, $defaultObfuscator);
                         }
                         return $obfuscated;
                     }
@@ -321,36 +321,36 @@ abstract class PropertyObfuscator
                      *
                      * @return array<int|string, mixed>
                      */
-                    private function _obfuscateArray(array $array, ?Obfuscator $defaultObfuscator): array
+                    private function obfuscateArray(array $array, ?Obfuscator $defaultObfuscator): array
                     {
                         $obfuscated = [];
                         foreach ($array as $key => $value) {
                             if (is_string($key)) {
-                                $propertyConfig = $this->_getPropertyConfig($key);
-                                $obfuscated[$key] = $this->_obfuscateValue($value, $propertyConfig, $defaultObfuscator);
+                                $propertyConfig = $this->getPropertyConfig($key);
+                                $obfuscated[$key] = $this->obfuscateValue($value, $propertyConfig, $defaultObfuscator);
                             } else {
-                                $obfuscated[$key] = $this->_obfuscateWithDefault($value, $defaultObfuscator);
+                                $obfuscated[$key] = $this->obfuscateWithDefault($value, $defaultObfuscator);
                             }
                         }
                         return $obfuscated;
                     }
 
-                    private function _obfuscateScalars(mixed $value, Obfuscator $obfuscator): mixed
+                    private function obfuscateScalars(mixed $value, Obfuscator $obfuscator): mixed
                     {
                         $result = $value;
                         if (is_scalar($value) || is_null($value)) {
-                            $result = $this->_obfuscateScalar($value, $obfuscator);
+                            $result = $this->obfuscateScalar($value, $obfuscator);
                         } elseif (is_object($value)) {
                             $obfuscated = new stdClass();
                             // @phpstan-ignore foreach.nonIterable
                             foreach ($value as $propertyName => $propertyValue) {
-                                $obfuscated->$propertyName = $this->_obfuscateScalars($propertyValue, $obfuscator);
+                                $obfuscated->$propertyName = $this->obfuscateScalars($propertyValue, $obfuscator);
                             }
                             $result = $obfuscated;
                         } elseif (is_array($value)) {
                             $obfuscated = [];
                             foreach ($value as $propertyName => $propertyValue) {
-                                $obfuscated[$propertyName] = $this->_obfuscateScalars($propertyValue, $obfuscator);
+                                $obfuscated[$propertyName] = $this->obfuscateScalars($propertyValue, $obfuscator);
                             }
                             $result = $obfuscated;
                         }
@@ -362,7 +362,7 @@ abstract class PropertyObfuscator
                      *
                      * @param bool|float|int|string|null $value
                      */
-                    private function _obfuscateScalar(mixed $value, ?Obfuscator $defaultObfuscator): mixed
+                    private function obfuscateScalar(mixed $value, ?Obfuscator $defaultObfuscator): mixed
                     {
                         if (is_null($defaultObfuscator)) {
                             return $value;
@@ -375,14 +375,14 @@ abstract class PropertyObfuscator
                      *
                      * @return array{'obfuscator': Obfuscator, 'forObjects': PropertyObfuscationMode, 'forArrays': PropertyObfuscationMode}|null
                      */
-                    private function _getPropertyConfig(string $propertyName): ?array
+                    private function getPropertyConfig(string $propertyName): ?array
                     {
-                        if (isset($this->_caseSensitiveProperties[$propertyName])) {
-                            return $this->_caseSensitiveProperties[$propertyName];
+                        if (isset($this->caseSensitiveProperties[$propertyName])) {
+                            return $this->caseSensitiveProperties[$propertyName];
                         }
                         $lowerCasePropertyName = mb_strtolower($propertyName);
-                        if (isset($this->_caseInsensitiveProperties[$lowerCasePropertyName])) {
-                            return $this->_caseInsensitiveProperties[$lowerCasePropertyName];
+                        if (isset($this->caseInsensitiveProperties[$lowerCasePropertyName])) {
+                            return $this->caseInsensitiveProperties[$lowerCasePropertyName];
                         }
                         return null;
                     }

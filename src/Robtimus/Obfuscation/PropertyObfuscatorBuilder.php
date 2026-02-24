@@ -23,7 +23,7 @@ interface PropertyObfuscatorBuilder
      * @return PropertyConfigurer An object that can be used to configure the property, or continue building `PropertyObfuscator` instances.
      * @throws ValueError If a property with the same name and the same case sensitivity was already added.
      */
-    function withProperty(string $propertyName, Obfuscator $obfuscator, ?bool $caseSensitive = null): PropertyConfigurer;
+    public function withProperty(string $propertyName, Obfuscator $obfuscator, ?bool $caseSensitive = null): PropertyConfigurer;
 
     /**
      * Sets the case sensitivity for newly added properties that have no case sensitivity defined to `true`.
@@ -32,7 +32,7 @@ interface PropertyObfuscatorBuilder
      *
      * @return PropertyObfuscatorBuilder This object.
      */
-    function caseSensitiveByDefault(): PropertyObfuscatorBuilder;
+    public function caseSensitiveByDefault(): PropertyObfuscatorBuilder;
 
     /**
      * Sets the case sensitivity for newly added properties that have no case sensitivity defined to `false`.
@@ -41,7 +41,7 @@ interface PropertyObfuscatorBuilder
      *
      * @return PropertyObfuscatorBuilder This object.
      */
-    function caseInsensitiveByDefault(): PropertyObfuscatorBuilder;
+    public function caseInsensitiveByDefault(): PropertyObfuscatorBuilder;
 
     /**
      * Indicates how to handle properties if their values are objects. The default is `INHERIT`.
@@ -52,7 +52,7 @@ interface PropertyObfuscatorBuilder
      *
      * @return PropertyObfuscatorBuilder This object.
      */
-    function forObjectsByDefault(PropertyObfuscationMode $obfuscationMode): PropertyObfuscatorBuilder;
+    public function forObjectsByDefault(PropertyObfuscationMode $obfuscationMode): PropertyObfuscatorBuilder;
 
     /**
      * Indicates how to handle properties if their values are arrays. The default is `INHERIT`.
@@ -63,12 +63,12 @@ interface PropertyObfuscatorBuilder
      *
      * @return PropertyObfuscatorBuilder This object.
      */
-    function forArraysByDefault(PropertyObfuscationMode $obfuscationMode): PropertyObfuscatorBuilder;
+    public function forArraysByDefault(PropertyObfuscationMode $obfuscationMode): PropertyObfuscatorBuilder;
 
     /**
      * Creates a new `PropertyObfuscator` with the properties and obfuscators added to this builder.
      *
      * @return PropertyObfuscator The created `PropertyObfuscator` instance.
      */
-    function build(): PropertyObfuscator;
+    public function build(): PropertyObfuscator;
 }

@@ -94,38 +94,38 @@ abstract class SplitPoint
 
         return new class($splitStart, $splitLength, $beforeSplitPoint, $afterSplitPoint) extends Obfuscator
         {
-            private mixed $_splitStart;
-            private int $_splitLength;
-            private Obfuscator $_beforeSplitPoint;
-            private Obfuscator $_afterSplitPoint;
+            private mixed $splitStart;
+            private int $splitLength;
+            private Obfuscator $beforeSplitPoint;
+            private Obfuscator $afterSplitPoint;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(callable $splitStart, int $splitLength, Obfuscator $beforeSplitPoint, Obfuscator $afterSplitPoint)
             {
-                $this->_splitStart = $splitStart;
-                $this->_splitLength  = $splitLength;
-                $this->_beforeSplitPoint = $beforeSplitPoint;
-                $this->_afterSplitPoint = $afterSplitPoint;
+                $this->splitStart = $splitStart;
+                $this->splitLength  = $splitLength;
+                $this->beforeSplitPoint = $beforeSplitPoint;
+                $this->afterSplitPoint = $afterSplitPoint;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function obfuscateText(string $text): string
             {
                 // @phpstan-ignore-next-line (no error identifier available to be more specific)
-                $splitStart = intval(call_user_func($this->_splitStart, $text));
+                $splitStart = intval(call_user_func($this->splitStart, $text));
                 if ($splitStart === -1) {
-                    return $this->_beforeSplitPoint->obfuscateText($text);
+                    return $this->beforeSplitPoint->obfuscateText($text);
                 }
 
-                $resultBeforeSplitPoint = $this->_beforeSplitPoint->obfuscateText(mb_substr($text, 0, $splitStart));
+                $resultBeforeSplitPoint = $this->beforeSplitPoint->obfuscateText(mb_substr($text, 0, $splitStart));
 
-                if ($this->_splitLength > 0) {
-                    $split = mb_substr($text, $splitStart, $this->_splitLength);
-                    $resultAfterSplitPoint = $this->_afterSplitPoint->obfuscateText(mb_substr($text, $splitStart + $this->_splitLength));
+                if ($this->splitLength > 0) {
+                    $split = mb_substr($text, $splitStart, $this->splitLength);
+                    $resultAfterSplitPoint = $this->afterSplitPoint->obfuscateText(mb_substr($text, $splitStart + $this->splitLength));
                     return $resultBeforeSplitPoint . $split . $resultAfterSplitPoint;
                 }
 
-                $resultAfterSplitPoint = $this->_afterSplitPoint->obfuscateText(mb_substr($text, $splitStart));
+                $resultAfterSplitPoint = $this->afterSplitPoint->obfuscateText(mb_substr($text, $splitStart));
                 return $resultBeforeSplitPoint . $resultAfterSplitPoint;
             }
         };
@@ -142,31 +142,31 @@ abstract class SplitPoint
      */
     public static function atFirst(string $s): SplitPoint
     {
-        SplitPoint::_checkNotEmpty($s);
+        SplitPoint::checkNotEmpty($s);
 
         return new class($s) extends SplitPoint
         {
-            private string $_splitAt;
-            private int $_splitLength;
+            private string $splitAt;
+            private int $splitLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(string $splitAt)
             {
-                $this->_splitAt = $splitAt;
-                $this->_splitLength = mb_strlen($splitAt);
+                $this->splitAt = $splitAt;
+                $this->splitLength = mb_strlen($splitAt);
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitStart(string $text): int
             {
-                $result = mb_strpos($text, $this->_splitAt);
+                $result = mb_strpos($text, $this->splitAt);
                 return $result === false ? -1 : $result;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitLength(): int
             {
-                return $this->_splitLength;
+                return $this->splitLength;
             }
         };
     }
@@ -182,31 +182,31 @@ abstract class SplitPoint
      */
     public static function atLast(string $s): SplitPoint
     {
-        SplitPoint::_checkNotEmpty($s);
+        SplitPoint::checkNotEmpty($s);
 
         return new class($s) extends SplitPoint
         {
-            private string $_splitAt;
-            private int $_splitLength;
+            private string $splitAt;
+            private int $splitLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(string $splitAt)
             {
-                $this->_splitAt = $splitAt;
-                $this->_splitLength = mb_strlen($splitAt);
+                $this->splitAt = $splitAt;
+                $this->splitLength = mb_strlen($splitAt);
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitStart(string $text): int
             {
-                $result = mb_strrpos($text, $this->_splitAt);
+                $result = mb_strrpos($text, $this->splitAt);
                 return $result === false ? -1 : $result;
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitLength(): int
             {
-                return $this->_splitLength;
+                return $this->splitLength;
             }
         };
     }
@@ -223,7 +223,7 @@ abstract class SplitPoint
      */
     public static function atNth(string $s, int $occurrence): SplitPoint
     {
-        SplitPoint::_checkNotEmpty($s);
+        SplitPoint::checkNotEmpty($s);
 
         if ($occurrence < 0) {
             throw new ValueError("$occurrence < 0");
@@ -231,24 +231,24 @@ abstract class SplitPoint
 
         return new class($s, $occurrence) extends SplitPoint
         {
-            private string $_splitAt;
-            private int $_occurrence;
-            private int $_splitLength;
+            private string $splitAt;
+            private int $occurrence;
+            private int $splitLength;
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function __construct(string $splitAt, int $occurrence)
             {
-                $this->_splitAt = $splitAt;
-                $this->_occurrence = $occurrence;
-                $this->_splitLength = mb_strlen($splitAt);
+                $this->splitAt = $splitAt;
+                $this->occurrence = $occurrence;
+                $this->splitLength = mb_strlen($splitAt);
             }
 
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitStart(string $text): int
             {
-                $result = mb_strpos($text, $this->_splitAt);
-                for ($i = 1; $i <= $this->_occurrence && $result !== false; $i++) {
-                    $result = mb_strpos($text, $this->_splitAt, $result + 1);
+                $result = mb_strpos($text, $this->splitAt);
+                for ($i = 1; $i <= $this->occurrence && $result !== false; $i++) {
+                    $result = mb_strpos($text, $this->splitAt, $result + 1);
                 }
                 return $result === false ? -1 : $result;
             }
@@ -256,12 +256,12 @@ abstract class SplitPoint
             // phpcs:ignore PEAR.Commenting.FunctionComment.Missing
             public function splitLength(): int
             {
-                return $this->_splitLength;
+                return $this->splitLength;
             }
         };
     }
 
-    private static function _checkNotEmpty(string $s): void
+    private static function checkNotEmpty(string $s): void
     {
         if (mb_strlen($s) === 0) {
             throw new ValueError("cannot split on empty strings");
